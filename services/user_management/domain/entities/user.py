@@ -7,3 +7,4 @@ class User:
 
         self.full_name = full_name
         self.phone_number = phone_number
+        self.status = "ACTIVE"

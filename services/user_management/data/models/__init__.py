@@ -1,1 +1,1 @@
-from .user_models import *
+from .user_dao import UserDAO

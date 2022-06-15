@@ -1,9 +1,15 @@
 import uvicorn
 
 from fastapi import FastAPI
-from .presentation.user_auth import router as user_router
+from .presentation.apis.user_auth import router as user_router
+
+from .di import init_di
 
 app = FastAPI()
+
+@app.on_event("startup")
+async def startup_event():
+    await init_di()
 
 app.include_router(user_router, prefix='/user')
 

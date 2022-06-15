@@ -1,8 +1,9 @@
+from kink import di, inject
+from .base import BaseUserUsecase
 
+class GetUserUseCase(BaseUserUsecase):
+    def __init__(self) -> None:
+        super().__init__()
 
-class GetUserUseCase:
-    def __init__(self, repository) -> None:
-        self.repository = repository
-
-    def __call__(self, id):
-        return self.repository.get_user_by_id(id)
+    async def execute(self, id):
+        return await self.repository.get_user_by_id(id)
