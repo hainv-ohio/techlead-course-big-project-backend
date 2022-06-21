@@ -1,5 +1,5 @@
-from kink import di, inject
 from .base import BaseUserUsecase
+
 
 class GetUserUseCase(BaseUserUsecase):
     def __init__(self) -> None:

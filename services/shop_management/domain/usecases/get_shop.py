@@ -1,5 +1,5 @@
-from kink import di, inject
 from .base import BaseShopUsecase
+
 
 class GetBaseShopUsecase(BaseShopUsecase):
     def __init__(self) -> None:

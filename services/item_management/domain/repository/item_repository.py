@@ -1,13 +1,12 @@
-
-
-
 """
 Item Repository Interface
 """
 from typing import Tuple
 from xmlrpc.client import Boolean
-from ..entities.item import Item
+
 from core.types import Failure
+from ..entities.item import Item
+
 
 class ItemRepository:
 
@@ -19,11 +18,9 @@ class ItemRepository:
 
     async def update_item_image(self, id, image_path) -> Tuple[Boolean, Failure]:
         raise NotImplementedError()
-    
+
     async def delete_item(self, id) -> Tuple[Boolean, Failure]:
         raise NotImplementedError()
 
     async def init(self):
         pass
-
-    

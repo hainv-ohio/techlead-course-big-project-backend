@@ -1,5 +1,5 @@
-
 from .postgres_module import PostgresModule
+
 
 def get_postgres_module(use_v2=False) -> PostgresModule:
     if use_v2:

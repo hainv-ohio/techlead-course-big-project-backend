@@ -1,11 +1,13 @@
 from pydantic import BaseModel
+
 from .base import BaseResponseSchema
 from .user_info import UserInfoResponse
+
 
 class UserPasswordLoginRequest(BaseModel):
     email: str
     password: str
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -13,6 +15,7 @@ class UserPasswordLoginRequest(BaseModel):
                 "password": "123",
             }
         }
+
 
 class UserLoginResponse(BaseResponseSchema):
     data: UserInfoResponse

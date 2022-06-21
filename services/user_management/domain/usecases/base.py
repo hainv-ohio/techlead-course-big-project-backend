@@ -1,5 +1,7 @@
-from ..repository import UserRepository
 from kink import inject
+
+from ..repository import UserRepository
+
 
 @inject
 class BaseUserUsecase:

@@ -1,6 +1,5 @@
-
-
 from .postgres_module import PostgresModule
+
 
 class PostgresModuleImpl(PostgresModule):
 

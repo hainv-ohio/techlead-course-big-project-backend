@@ -1,13 +1,9 @@
-
-
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
-from services.user_management.domain.usecases.login_w_password import LoginWithPasswordUseCase
-from ...domain.usecases import GetUserUseCase, LoginWithPasswordUseCase
-
 from ..schemas.base import BaseResponseSchema
 from ..schemas.user_auth import UserLoginResponse, UserPasswordLoginRequest
+from ...domain.usecases import GetUserUseCase, LoginWithPasswordUseCase
 
 router = APIRouter()
 
@@ -28,7 +24,7 @@ async def get_user_by_id(id: str,
                  401: {"model": BaseResponseSchema}
              })
 async def login_w_password(data: UserPasswordLoginRequest,
-                           login_w_password_usecase = Depends(lambda: LoginWithPasswordUseCase())):
+                           login_w_password_usecase=Depends(lambda: LoginWithPasswordUseCase())):
     user, failure = await login_w_password_usecase.execute(data.email, data.password)
     if failure is not None:
         return JSONResponse(

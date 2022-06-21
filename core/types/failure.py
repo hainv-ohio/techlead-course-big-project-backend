@@ -1,5 +1,3 @@
-
-
 class Failure:
     def __init__(self, code, message) -> None:
         self.message = message
