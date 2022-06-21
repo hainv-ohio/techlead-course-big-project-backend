@@ -1,5 +1,7 @@
-from ..repository import ItemRepository
 from kink import inject
+
+from ..repository import ItemRepository
+
 
 @inject
 class BaseItemUsecase:

@@ -1,5 +1,7 @@
-from ..repository import ShopRepository
 from kink import inject
+
+from ..repository import ShopRepository
+
 
 @inject
 class BaseShopUsecase:

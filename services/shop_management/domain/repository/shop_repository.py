@@ -1,11 +1,10 @@
-
-
 """
 User Repository Interface
 """
-from typing import List, Tuple
-from ..entities.shop import Shop
+from typing import Tuple
+
 from core.types import Failure
+from ..entities.shop import Shop
 
 
 class ShopRepository:

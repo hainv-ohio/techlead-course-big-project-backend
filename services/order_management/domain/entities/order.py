@@ -1,6 +1,4 @@
 from datetime import datetime
-from os import stat
-from xmlrpc.client import boolean
 
 
 class Order:
@@ -18,4 +16,3 @@ class Order:
         self.shop_id = shop_id
         self.take_time_start = take_time_start
         self.take_time_end = take_time_end
-    

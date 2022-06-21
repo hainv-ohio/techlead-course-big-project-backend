@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from pydantic import BaseModel
+
 from core.utils.datetime_utils import format_utc_str
 
 
