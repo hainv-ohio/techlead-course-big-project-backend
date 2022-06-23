@@ -1,9 +1,9 @@
 from datetime import datetime
 
 
-class Shop:
+class Store:
     def __init__(self,
-                 shop_id: str,
+                 store_id: str,
                  user_id: str,
                  device_id: str,
                  device_type: str,
@@ -11,7 +11,7 @@ class Shop:
                  created_at: datetime,
                  updated_at: datetime,
                  *args, **kwargs) -> None:
-        self.shop_id = shop_id
+        self.store_id = store_id
         self.user_id = user_id
         self.device_id = device_id
         self.device_type = device_type

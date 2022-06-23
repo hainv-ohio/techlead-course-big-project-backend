@@ -1,15 +1,15 @@
-from ..models import ShopDAO
-from ...domain.repository import ShopRepository
+from ..models import StoreDAO
+from ...domain.repository import StoreRepository
 
 
-class ShopRepositoryImpl(ShopRepository):
+class StoreRepositoryImpl(StoreRepository):
     def __init__(self) -> None:
         super().__init__()
 
-    async def get_shop_by_id(self, id):
+    async def get_store_by_id(self, id):
         # Access to db here
         json_data = {
-            'shop_id': 1,
+            'store_id': 1,
             'user_id': 10,
             'device_id': 10,
             'device_type': 'ios',
@@ -17,4 +17,4 @@ class ShopRepositoryImpl(ShopRepository):
             'created_at': '21/06/2021',
             'updated_at': '22/06/2022'
         }
-        return ShopDAO.from_json(json_data)
+        return StoreDAO.from_json(json_data)
