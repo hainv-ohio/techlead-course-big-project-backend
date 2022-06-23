@@ -4,7 +4,7 @@ from ..repository.order_repository import OrderRepository
 
 
 class OrderAction(BaseOrderUsecase):
-    def __init__(self, repository: OrderRepository, order: Order) -> None:
+    def __init__(self, repository: OrderRepository = Depends(OrderRepository), order: Order = Depends(Order)) -> None:
         super().__init__(repository, order)
 
     async def execute(self, order_id):
