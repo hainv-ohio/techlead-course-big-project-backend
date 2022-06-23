@@ -1,4 +1,4 @@
-from kink import di
+from kink import di, inject
 
 from services.order_management.domain.entities.order import Order
 from ..repository.order_repository import OrderRepository

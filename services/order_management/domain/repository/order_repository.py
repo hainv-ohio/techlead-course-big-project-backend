@@ -25,3 +25,6 @@ class OrderRepository:
     
     def get_list_order_by_shop_id(self, shop_id: str):
         raise NotImplementedError()
+    
+    async def init(self):
+        pass
