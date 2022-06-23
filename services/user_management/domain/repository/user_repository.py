@@ -1,12 +1,11 @@
-
-
-
 """
 User Repository Interface
 """
 from typing import List, Tuple
-from ..entities.user import User
+
 from core.types import Failure
+from ..entities.user import User
+
 
 class UserRepository:
 

@@ -1,10 +1,9 @@
-
-
 from ...domain.entities.item import Item
 
 
 class ItemDAO(Item):
-    def __init__(self, id: int,  name: str, category_id: int, price: float, currency_code: int, detail: str, *args, **kwargs) -> None:
+    def __init__(self, id: int, name: str, category_id: int, price: float, currency_code: int, detail: str, *args,
+                 **kwargs) -> None:
         super().__init__(id, name, category_id, price, currency_code, detail, *args, **kwargs)
 
     @staticmethod

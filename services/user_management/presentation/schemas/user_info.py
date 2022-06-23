@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 
+
 class UserInfoResponse(BaseModel):
     name: str
-    status: str   
+    status: str
     phone: str
 
     class Config:

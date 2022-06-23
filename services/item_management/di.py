@@ -1,12 +1,11 @@
-
 from kink import di
-from .domain.repository import ItemRepository
-from .data.repository import ItemRepositoryImpl
 
-from .domain.usecases import *
+from .data.repository import ItemRepositoryImpl
+from .domain.repository import ItemRepository
+
 
 async def init_di():
-    repository =  ItemRepositoryImpl()
+    repository = ItemRepositoryImpl()
     await repository.init()
 
     di[ItemRepository] = repository

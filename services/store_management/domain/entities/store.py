@@ -1,22 +1,20 @@
-
 from datetime import datetime
 
 
-class Shop:
+class Store:
     def __init__(self,
-                 shop_id: str,
+                 store_id: str,
                  user_id: str,
                  device_id: str,
                  device_type: str,
-                 adress_id: int,
+                 address_id: int,
                  created_at: datetime,
                  updated_at: datetime,
-                 * args, **kwargs) -> None:
-
-        self.shop_id = shop_id
+                 *args, **kwargs) -> None:
+        self.store_id = store_id
         self.user_id = user_id
         self.device_id = device_id
         self.device_type = device_type
-        self.adress_id = adress_id
+        self.address_id = address_id
         self.created_at = created_at
         self.updated_at = updated_at
