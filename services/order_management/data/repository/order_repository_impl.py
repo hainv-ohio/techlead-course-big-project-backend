@@ -3,7 +3,7 @@ from xmlrpc.client import boolean
 # from requests import delete
 from ...domain.repository.order_repository import OrderRepository
 from ...domain.entities.order import Order
-from ..models import DatabaseOrder
+from ..models import OrderDao
 from ...domain.entities.order import Order
 from ...domain.repository import order_repository
 
@@ -15,7 +15,7 @@ class OrderRepositoryImpl(OrderRepository):
     def get_order_by_id(self, order_id: str) -> Order:
         # Access db to get Order by order Id
         # Example data
-        return DatabaseOrder({
+        return OrderDao({
             'order_id': '1',
             'status': 1,
             'customer_id': '1',
