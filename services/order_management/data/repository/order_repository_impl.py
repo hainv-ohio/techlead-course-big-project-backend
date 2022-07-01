@@ -15,14 +15,14 @@ class OrderRepositoryImpl(OrderRepository):
     def get_order_by_id(self, order_id: str) -> Order:
         # Access db to get Order by order Id
         # Example data
-        return OrderDao({
+        return {
             'order_id': '1',
             'status': 1,
             'customer_id': '1',
             'shop_id': '1',
             'take_time_start': '1',
             'take_time_end': '1'
-        })
+        }
 
     def save(self, order: Order) -> boolean:
         # Save Order to database if save successful return true else return false
