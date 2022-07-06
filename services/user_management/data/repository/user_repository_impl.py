@@ -10,8 +10,8 @@ class UserRepositoryImpl(UserRepository):
     async def get_user_by_id(self, id):
         # Access to db here
         return UserDAO.from_json({
-            'name': "Haha",
-            'phone': '123456'
+            'name': "sdsdsdsd",
+            'phone': '123456323232'
         })
 
     async def login_with_password(self, email, password):

@@ -12,7 +12,7 @@ router = APIRouter()
 async def get_user_by_id(id: str,
                          get_user_by_id_usecase: GetUserUseCase = Depends(GetUserUseCase)):
     result = await get_user_by_id_usecase.execute(id)
-    return {'name': "Hello", 'phone': '123456'}
+    return result
 
 
 @router.post("/password-login",
