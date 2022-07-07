@@ -21,6 +21,16 @@ services:
     volumes:
       - ./:/app
 
+  order_app:
+    build:
+      dockerfile: services/order_management/deployment/Dockerfile
+      context: .
+    command: uvicorn services.order_management.main:app --reload
+    environment:
+      KAFKA_ENDPOINT: "broker:9092"
+    volumes:
+      - ./:/app
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper
