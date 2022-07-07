@@ -22,4 +22,5 @@ class UserRepositoryImpl(UserRepository):
             }), None
         return None, Failure(401, "Incorrect username or password")
 
-    
+    async def send_message_to_store(self, user):
+        pass
