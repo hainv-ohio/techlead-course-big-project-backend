@@ -1,0 +1,58 @@
+version: "3.3"
+services:
+  # web:
+  #   container_name: techlead-superpharm
+  #   build: .
+  #   ports:
+  #     - "5000:6996"
+  #   volumes:
+  #     - ./:/app
+  #   networks:
+  #       - rabbitmq_net
+  user_app:
+    container_name: user_app
+    build:
+      dockerfile: services/user_management/deployment/Dockerfile
+      context: .
+    command: uvicorn services.user_management.main:app --reload --port=6996 --host=0.0.0.0
+    environment:
+      RABBITMQ_ENDPOINT: "rabbitmq:15672"
+    volumes:
+      - ./:/app
+    ports:
+      - "0.0.0.0:5100:6996"
+    networks:
+      - rabbitmq_net
+  item_app:
+    container_name: item_app
+    build:
+      dockerfile: services/item_management/deployment/Dockerfile
+      context: .
+    command: uvicorn services.item_management.main:app --reload --port=6996 --host=0.0.0.0
+    environment:
+      RABBITMQ_ENDPOINT: "rabbitmq:15672"
+    volumes:
+      - ./:/app
+    ports:
+      - "0.0.0.0:5200:6996"
+    networks:
+      - rabbitmq_net
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq/
+    networks:
+        - rabbitmq_net
+
+volumes:
+    rabbitmq_data:
+    rabbitmq_log:
+
+networks:
+  rabbitmq_net:
+    driver: bridge
