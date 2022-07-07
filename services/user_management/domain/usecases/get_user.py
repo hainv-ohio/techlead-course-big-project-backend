@@ -8,7 +8,7 @@ class GetUserUseCase(BaseUserUsecase):
     async def execute(self, id):
         user = await self.repository.get_user_by_id(id)
         if user is not None:
-            get_user_success = await self.user_producer.get_user_success(user)
+            is_send_message_to_store = await self.repository.send_message_to_store(user)
         else:
             pass
         return user
