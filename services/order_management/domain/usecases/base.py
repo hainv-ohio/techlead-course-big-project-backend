@@ -1,5 +1,4 @@
-from kink import inject
-
+from kink import di, inject
 from ..repository.order_repository import OrderRepository
 
 

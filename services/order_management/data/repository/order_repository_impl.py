@@ -3,7 +3,7 @@ from xmlrpc.client import boolean
 # from requests import delete
 from ...domain.repository.order_repository import OrderRepository
 from ...domain.entities.order import Order
-from ..models import OrderDao
+from ..models import DatabaseOrder
 from ...domain.entities.order import Order
 from ...domain.repository import order_repository
 
