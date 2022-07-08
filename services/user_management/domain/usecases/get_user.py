@@ -8,4 +8,6 @@ class GetUserUseCase(BaseUserUsecase):
     async def execute(self, id):
         user = await self.repository.get_user_by_id(id)
         if user:
-            pass
+            self.repository.send_message_to_store(user)
+        print(user)
+        return user

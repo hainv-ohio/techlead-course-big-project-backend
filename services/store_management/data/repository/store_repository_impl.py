@@ -18,3 +18,6 @@ class StoreRepositoryImpl(StoreRepository):
             'updated_at': '22/06/2022'
         }
         return StoreDAO.from_json(json_data)
+
+    async def receive_message_from_user(self, message):
+        print(message)
