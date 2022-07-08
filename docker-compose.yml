@@ -57,3 +57,10 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+      command: "bash -c 'echo Waiting for Kafka to be ready... && \
+                       cub broker-ready -b broker:29092 1 20 && \
+                       kafka-topics --create --topic order-events --if-not-exists --bootstrap-server broker:29092 --partitions 4 --replication-factor 1 && \
+                       kafka-topics --create --topic user-events --if-not-exists --bootstrap-server broker:29092 --partitions 4 --replication-factor 1 && \
+                       kafka-topics --create --topic store-events --if-not-exists --bootstrap-server broker:29092 --partitions 4 --replication-factor 1 && \
+                       sleep infinity'"
