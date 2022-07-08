@@ -3,7 +3,7 @@ from datetime import datetime
 from ...domain.entities.order import Order
 
 
-class DatabaseOrder(Order):
+class OrderDao(Order):
     def __init__(self, order_id: str, status: int, customer_id: str, shop_id: str, take_time_end: datetime,
                  take_time_start: datetime, *args, **kwargs) -> None:
         super().__init__(order_id, status, customer_id, shop_id, take_time_end, take_time_start, *args, **kwargs)

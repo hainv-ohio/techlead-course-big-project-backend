@@ -20,3 +20,6 @@ class UserRepository:
 
     async def init(self):
         pass
+
+    async def get_order_by_order_id(self, order_id):
+        raise NotImplementedError()
