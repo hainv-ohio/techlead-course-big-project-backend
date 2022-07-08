@@ -1,6 +1,6 @@
 from ..models import ItemDAO
 from ...domain.repository import ItemRepository
-
+from ..events.item_producer import ItemProducer
 
 class ItemRepositoryImpl(ItemRepository):
     def __init__(self) -> None:
@@ -15,3 +15,6 @@ class ItemRepositoryImpl(ItemRepository):
             'currency_code': 1,
             'detail': 'detail test'
         })
+
+    async def send_item_message(self, item):
+        return ItemProducer.send_item_message(item)

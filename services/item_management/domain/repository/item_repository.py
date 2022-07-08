@@ -22,5 +22,8 @@ class ItemRepository:
     async def delete_item(self, id) -> Tuple[Boolean, Failure]:
         raise NotImplementedError()
 
+    async def send_item_message(self, item)-> Tuple[Boolean, Failure]:
+         raise NotImplementedError()
+
     async def init(self):
         pass
