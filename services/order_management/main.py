@@ -14,4 +14,4 @@ async def startup_event():
 
 app.include_router(get_order, prefix='/order')
 
-uvicorn.run(app, host="0.0.0.0", port=6996)
+# uvicorn.run(app, host="0.0.0.0", port=6996)

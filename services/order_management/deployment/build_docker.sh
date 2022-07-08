@@ -1,3 +1,3 @@
 
 
-docker build -f services/user_management/deployment/Dockerfile -t user-management-service .
+docker build -f services/order_management/deployment/Dockerfile -t order-management-service .

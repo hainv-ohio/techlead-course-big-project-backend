@@ -5,27 +5,31 @@ services:
     build:
       dockerfile: services/user_management/deployment/Dockerfile
       context: .
-    command: uvicorn services.user_management.main:app --reload
+    command: uvicorn services.user_management.main:app --reload --port=8001 --host=0.0.0.0
+    ports:
+      - "8001:8001"
     environment:
       KAFKA_ENDPOINT: "broker:9092"
     volumes:
       - ./:/app
 
-  store_app:
-    build:
-      dockerfile: services/store_management/deployment/Dockerfile
-      context: .
-    command: uvicorn services.store_management.main:app --reload
-    environment:
-      KAFKA_ENDPOINT: "broker:9092"
-    volumes:
-      - ./:/app
+  # store_app:
+  #   build:
+  #     dockerfile: services/store_management/deployment/Dockerfile
+  #     context: .
+  #   command: uvicorn services.store_management.main:app --reload
+  #   environment:
+  #     KAFKA_ENDPOINT: "broker:9092"
+  #   volumes:
+  #     - ./:/app
 
   order_app:
     build:
       dockerfile: services/order_management/deployment/Dockerfile
       context: .
-    command: uvicorn services.order_management.main:app --reload
+    command: uvicorn services.order_management.main:app --reload --port=8003 --host=0.0.0.0
+    ports:
+      - "8003:8003"
     environment:
       KAFKA_ENDPOINT: "broker:9092"
     volumes:
