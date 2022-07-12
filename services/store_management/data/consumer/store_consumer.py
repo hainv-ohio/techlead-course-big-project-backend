@@ -9,6 +9,6 @@ class StoreConsumer:
         pass
 
     async def receive_message_from_user(self):
-        result = self.kafka.subscribe('get_user_success')
+        result = self.kafka.subleqooscribe('get_user_success')
         if result:
             self.message.execute(result)
