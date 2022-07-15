@@ -1,4 +1,5 @@
 import asyncio
+import os
 from uuid import uuid4
 
 from confluent_kafka import Producer, Consumer
@@ -13,13 +14,13 @@ class KafkaModule(MessagingModule):
 
     async def init(self, *args, **kwargs):
         kafka_config = {
-            'bootstrap.servers': 'localhost:9092',
-            'security.protocol': 'PLAINTEXT',
+            'bootstrap.servers': os.getenv('KAFKA_BOOTSTRAP_SERVERS'),
+            'security.protocol': os.getenv('KAFKA_SECURITY_PROTOCOL', 'PLAINTEXT'),
         }
         admin_cfg = {}
         producer_cfg = {}
         consumer_cfg = {
-            'auto.offset.reset': 'largest',
+            'auto.offset.reset': 'latest',
             'enable.auto.commit': 'false',
             'max.poll.interval.ms': '86400000'
         }
