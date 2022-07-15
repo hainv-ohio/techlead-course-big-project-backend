@@ -1,6 +1,6 @@
 
 
-from core.modules.kafka_module import Kafka
+from core.modules.messaging_module import Kafka
 
 
 class UserProducer:

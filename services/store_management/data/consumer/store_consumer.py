@@ -1,4 +1,4 @@
-from core.modules.kafka_module import Kafka
+from core.modules.messaging_module import Kafka
 from ...domain.usecases.receive_message_from_user import MessageFromUser
 
 
