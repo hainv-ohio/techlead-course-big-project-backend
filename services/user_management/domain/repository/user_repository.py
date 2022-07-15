@@ -9,6 +9,9 @@ from ..entities.user import User
 
 class UserRepository:
 
+    async def init(self):
+        pass
+
     async def get_user_by_id(self, id) -> Tuple[User, Failure]:
         raise NotImplementedError()
 
@@ -18,5 +21,5 @@ class UserRepository:
     async def get_all_users(self) -> Tuple[List[User], Failure]:
         raise NotImplementedError()
 
-    async def init(self):
-        pass
+    async def send_message_to_store(self, user: User) -> Tuple[List[User], Failure]:
+        raise NotImplementedError()

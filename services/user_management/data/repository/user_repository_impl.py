@@ -1,10 +1,12 @@
 from core.types import Failure
+from ..producer.user_producer import UserProducer
 from ..models import UserDAO
 from ...domain.repository import UserRepository
 
 
 class UserRepositoryImpl(UserRepository):
     def __init__(self) -> None:
+        self.user_producer = UserProducer()
         super().__init__()
 
     async def get_user_by_id(self, id):
@@ -22,4 +24,5 @@ class UserRepositoryImpl(UserRepository):
             }), None
         return None, Failure(401, "Incorrect username or password")
 
-    
+    async def send_message_to_store(self, user):
+        self.user_producer.send_message_to_store(user)
