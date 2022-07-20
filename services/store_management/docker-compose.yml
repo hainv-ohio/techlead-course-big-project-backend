@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  store_postgres:
+    image: postgres
+    restart: always
+    ports: 
+    - 0.0.0.0:5435:5432
+    volumes:
+    - ./store_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+

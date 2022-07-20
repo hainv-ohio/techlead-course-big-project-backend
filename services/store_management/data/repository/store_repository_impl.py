@@ -21,3 +21,20 @@ class StoreRepositoryImpl(StoreRepository):
 
     async def receive_message_from_user(self, message):
         print(message)
+
+    async def get_list_store_by_area(self, area_id):
+        list_store = {}
+        allow_areas = {29, 59, 30, 50}
+        if not type(area_id) is int:
+            raise TypeError("Area id must is integer")
+
+        if area_id in allow_areas:
+            list_store = {
+                'store 1',
+                'store 2',
+                'store 3'
+            }
+        return list_store
+
+    async def get_revenue_by_day(self, start_date=None, end_date=None):
+        pass
