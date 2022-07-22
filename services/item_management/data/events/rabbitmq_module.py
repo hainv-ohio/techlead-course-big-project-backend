@@ -6,11 +6,11 @@ class RabbitMQ:
 
     async def connection(self):
         # Establish a connection with RabbitMQ server.
-        self.connection = await pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq:15672'))
+        self.connection = await pika.BlockingConnection(pika.ConnectionParameters(host='0.0.0.0', port=5672, ))
         return self
 
     async def getChannel(self):
-        return self.connection.channel()
+        return await self.connection.channel()
 
     async def close(self):
         # Close a connection with RabbitMQ server.

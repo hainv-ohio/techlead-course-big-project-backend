@@ -88,3 +88,15 @@ services:
       KAFKA_ENDPOINT: "broker:29092"
     volumes:
       - ./:/app
+  
+  item_app:
+    build:
+      dockerfile: services/item_management/deployment/Dockerfile
+      context: .
+    command: uvicorn services.item_management.main:app --reload --port=8003 --host=0.0.0.0
+    ports:
+      - "8003:8003"
+    environment:
+      KAFKA_ENDPOINT: "broker:29092"
+    volumes:
+      - ./:/app
