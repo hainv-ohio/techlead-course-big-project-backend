@@ -5,3 +5,6 @@ uvicorn~=0.17.6
 pytz~=2022.1
 pydantic~=1.9.1
 confluent-kafka
+pytest
+pytest-asyncio
+py-bcrypt
