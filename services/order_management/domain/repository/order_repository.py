@@ -9,10 +9,10 @@ from ..entities.order import Order
 
 class OrderRepository:
 
-    async def get_order_by_id(self, order_id: str) -> Order:
+    async def get_order_by_id(self, order_id: str) -> Tuple[Order, Failure]:
         raise NotImplementedError()
 
-    async def save(self, order: Order) -> bool:
+    async def save(self, order) -> Tuple[bool, Failure]:
         raise NotImplementedError()
 
     async def delete(self, order: Order) -> bool:

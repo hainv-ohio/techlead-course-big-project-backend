@@ -11,7 +11,7 @@ class OrderRepositoryImpl(OrderRepository):
         self.order_producer = OrderProducer()
         super().__init__()
             
-    async def get_order_by_id(self, order_id: str):
+    async def get_order_by_id(self, order_id: str) -> Tuple[Order, Failure]:
         # Access db to get Order by order Id
         # Example data
         return OrderDao.from_json({
@@ -23,9 +23,9 @@ class OrderRepositoryImpl(OrderRepository):
             'take_time_end': '1'
         })
 
-    async def save(self, order: Order) -> bool:
+    async def save(self, order) -> Tuple[bool, Failure]:
         # Save Order to database if save bool return true else return false
-        pass
+        return True
 
     async def delete(self, order: Order) -> bool:
         # Delete Order if delete successful return true else return false

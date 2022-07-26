@@ -1,15 +1,15 @@
 
-from .base import BaseOrderUsecase
+from .base import BaseUsecase
 
 
-class GetOrderUsecase(BaseOrderUsecase):
+class GetOrderUsecase(BaseUsecase):
     def __init__(self) -> None:
         super().__init__()
 
     async def execute(self, order_id):
         order = await self.repository.get_order_by_id(order_id)
-        if order:
-            self.repository.send_message_to_user(topic="get_order_by_id_action", value=order)
+        # if order:
+        #     self.repository.send_message_to_user(topic="get_order_by_id_action", value=order)
         return {
             'status': 'success',
             'message': '',
