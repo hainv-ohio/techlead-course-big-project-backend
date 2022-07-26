@@ -4,6 +4,9 @@ from fastapi import FastAPI
 from .di import init_di
 from .presentation.apis.user_auth import router as user_router
 
+from dotenv import load_dotenv
+load_dotenv()
+
 app = FastAPI()
 
 
