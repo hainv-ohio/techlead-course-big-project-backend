@@ -3,9 +3,9 @@ from datetime import datetime
 
 class Store:
     def __init__(self,
-                 store_id: str,
-                 user_id: str,
-                 device_id: str,
+                 store_id: int,
+                 user_id: int,
+                 device_id: int,
                  device_type: str,
                  address_id: int,
                  created_at: datetime,

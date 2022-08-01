@@ -1,3 +1,4 @@
+from core.types import Failure
 from ..models import StoreDAO
 from ...domain.repository import StoreRepository
 
@@ -26,7 +27,7 @@ class StoreRepositoryImpl(StoreRepository):
         list_store = {}
         allow_areas = {29, 59, 30, 50}
         if not type(area_id) is int:
-            raise TypeError("Area id must is integer")
+            return Failure(500, "Area id must is integer")
 
         if area_id in allow_areas:
             list_store = {
