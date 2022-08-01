@@ -37,31 +37,6 @@ services:
       DB_PASSWORD: 12345
       DB_NAME: store_db
 
-<<<<<<< HEAD
-  store_app:
-    build:
-      dockerfile: services/store_management/deployment/Dockerfile
-      context: .
-    command: uvicorn services.store_management.main:app --reload --port=8002 --host=0.0.0.0
-    ports:
-      - "8002:8002"
-    environment:
-      KAFKA_ENDPOINT: "broker:29092"
-    volumes:
-      - ./:/app
-  
-  item_app:
-    build:
-      dockerfile: services/item_management/deployment/Dockerfile
-      context: .
-    command: uvicorn services.item_management.main:app --reload --port=8003 --host=0.0.0.0
-    ports:
-      - "8003:8003"
-    environment:
-      KAFKA_ENDPOINT: "broker:29092"
-    volumes:
-      - ./:/app
-=======
   # stock_service:
   #   build:
   #     context: .
@@ -87,4 +62,3 @@ services:
   #     DB_USER: postgres
   #     DB_PASSWORD: 12345
   #     DB_NAME: order_db
->>>>>>> origin/hainv
