@@ -6,4 +6,4 @@ class GetItemUseCase(BaseItemUsecase):
         super().__init__()
 
     async def execute(self, id):
-        return self.repository.get_item_by_id(id=id)
+        return await self.repository.get_item_by_id(id=id)

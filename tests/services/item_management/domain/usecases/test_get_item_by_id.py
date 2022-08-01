@@ -9,6 +9,11 @@ from services.item_management.domain.repository import ItemRepository
 from services.item_management.domain.usecases import GetItemUseCase
 from core.types.failure import Failure
 
+
+class AsyncMock(MagicMock):
+    async def __call__(self, *args, **kwargs):
+        return super(AsyncMock, self).__call__(*args, **kwargs)
+
 @pytest.mark.asyncio
 async def test_get_item_success():
 
@@ -21,7 +26,7 @@ async def test_get_item_success():
 
     mock_repository = ItemRepository()
 
-    mock_repository.get_item_by_id = MagicMock(
+    mock_repository.get_item_by_id = AsyncMock(
         return_value=(
             Item(
                 id=item_id,

@@ -14,7 +14,10 @@ services:
       POSTGRES_MULTIPLE_DATABASES: user_db,store_db,stock_db,order_db,item_db
 
   user_service:
-    image: techlead-user-management:0.0.1  
+    # image: techlead-user-management:0.0.1  
+    build:
+      context: .
+      dockerfile: ./services/user_management/deployment/Dockerfile
     ports:
       - 0.0.0.0:8030:8080
     environment:
@@ -23,11 +26,13 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=12345
       - DB_NAME=user_db
+    volumes:
+      - ./:/app
 
-  store_service:
+  item_service:
     build:
       context: .
-      dockerfile: ./services/store_management/deployment/Dockerfile
+      dockerfile: ./services/item_management/deployment/Dockerfile
     ports:
       - 0.0.0.0:8040:8080
     environment:
@@ -36,6 +41,8 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 12345
       DB_NAME: store_db
+    volumes:
+      - ./:/app
 
   # stock_service:
   #   build:
