@@ -72,7 +72,7 @@ async def test_user_register_with_existed_email_and_fail():
     user_name = "Test full name"
     user_email = "test@gmail.com" # Existed
     user_phone = "0313333888"
-    user_password = "pass@78"
+    user_password = "pass1234"
 
     failure_message = "Email existed"
 

@@ -1,13 +1,12 @@
 
 
-from core.modules.messaging_module import Kafka
+from kink import inject
+from core.modules.messaging_module import MessagingModule
 
-
+@inject
 class UserProducer:
-
-    def __init__(self):
-        self.kafka = Kafka()
-        pass
+    def __init__(self, kafka: MessagingModule):
+        self.kafka = kafka
 
     async def send_message_to_store(self, user):
 
