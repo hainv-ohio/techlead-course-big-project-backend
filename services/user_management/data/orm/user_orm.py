@@ -12,6 +12,7 @@ class UserORM(User, BaseSqlOrm):
         Column("phone_number", String(255),
                index=True, nullable=False),
         Column("email", String(255), index=True, nullable=False),
+        Column("password", String(255), index=True, nullable=False),
         Column("is_created", BOOLEAN, default=False),
         Column("is_verified", BOOLEAN, default=False),
         Column("profile_image_url", TEXT),

@@ -16,7 +16,11 @@ class UserRepository:
     @abstractmethod
     async def get_user_by_id(self, id) -> Tuple[User, Failure]: raise NotImplementedError()
     @abstractmethod
-    async def register_user(self, id) -> Tuple[User, Failure]:
+    async def register_user(self, user: User, password: str) -> Tuple[User, Failure]:
+        """
+        Register a new User
+        Return a new User (with ID)
+        """
         raise NotImplementedError()
     @abstractmethod
     async def check_password(self, user_id, password) -> Tuple[User, Failure]:
@@ -24,9 +28,6 @@ class UserRepository:
 
     @abstractmethod
     async def change_password(self, user_id, password) -> Tuple[User, Failure]:
-        raise NotImplementedError()
-    @abstractmethod
-    async def register_user(self, id) -> Tuple[User, Failure]:
         raise NotImplementedError()
     @abstractmethod
     async def login_with_password(self, email: str, password: str) -> Tuple[User, Failure]:

@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, orm
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine, create_async_engine
 
-
 from core.config import SqlDatabaseSettings
 
 from kink import inject
@@ -19,6 +18,7 @@ def connect_database(db_settings: SqlDatabaseSettings) -> None:
 
 @inject
 async def create_database_tables(engine: AsyncEngine):
+    logger.info(f'Creating database tables')
     from core.base.base_sql import BaseSqlOrm
     async with engine.begin() as conn:
         await conn.run_sync(BaseSqlOrm.metadata.create_all)

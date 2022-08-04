@@ -7,7 +7,7 @@ from ..entities.user import User
 
 class LoginWithPasswordUseCase(BaseUserUsecase):
 
-    async def execute(self, email, password) -> Tuple[User, Failure]:
-        user_credential, failure = await self.repository.login_with_password(email, password)
-        self.repository.store_token(user_credential.token)
-        return user_credential.user, failure
+    async def execute(self, email, password) -> Tuple[User, str, Failure]:
+        user_info, failure = await self.repository.login_with_password(email, password)
+        token = 'Bearer abcxyz'
+        return user_info, token, failure
