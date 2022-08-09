@@ -1,14 +1,25 @@
-import uvicorn
+from dotenv import load_dotenv
+load_dotenv('services/user_management/.env')
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from .config import cfg
 
 from .di import init_di
 from .presentation.apis.user_auth import router as user_router
 
-from dotenv import load_dotenv
-load_dotenv()
-
 app = FastAPI()
+origins = [
+    '*'
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup_event():

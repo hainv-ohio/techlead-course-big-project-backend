@@ -6,13 +6,18 @@ from ..entities.user import User
 
 class RegisterUserUsecase(BaseUserUsecase):
 
-    async def execute(self, name, email, phone, password) -> Tuple[User, Failure]:
+    async def execute(self, first_name, last_name, email, phone_number, password) -> Tuple[User, Failure]:
         if len(password) < 6:
             return None, Failure(400, "Weak password")
-        user, failure = self.repository.register_user(
-            full_name=name, 
-            phone_number=phone, 
-            email=email, 
-            password=password
+        user, failure = await self.repository.register_user(
+            User(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone_number=phone_number,
+                is_created=True,
+                is_verified=True
+            ),
+            password
         )
         return user, failure

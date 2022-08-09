@@ -11,7 +11,6 @@ services:
       POSTGRES_PASSWORD: 12345
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-      POSTGRES_MULTIPLE_DATABASES: user_db,store_db,stock_db,order_db,item_db
 
   user_service:
     # image: techlead-user-management:0.0.1  

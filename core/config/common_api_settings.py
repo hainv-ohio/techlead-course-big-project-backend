@@ -4,9 +4,9 @@ from pydantic import AnyHttpUrl, BaseSettings, PostgresDsn, validator
 
 
 class CommonApiSettings(BaseSettings):
-    PORT: int
+    PORT: int = 8000
     HOST: str = '0.0.0.0'
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = ''
     
     SWAGGER_UI_PARAMETERS: Dict[str, Any] = {
         'displayRequestDuration': True,

@@ -16,6 +16,18 @@ class UserPasswordLoginRequest(BaseModel):
             }
         }
 
+class UserPasswordRegisterRequest(BaseModel):
+    email: str
+    password: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "abc@gmail.com",
+                "password": "123",
+            }
+        }
+
 
 class UserLoginResponse(BaseResponseSchema):
     data: UserInfoResponse
