@@ -34,6 +34,21 @@ services:
       context: .
       dockerfile: ./services/item_management/deployment/Dockerfile
     ports:
+      - 0.0.0.0:8020:8080
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=12345
+      - DB_NAME=item_db
+    volumes:
+      - ./:/app
+
+  store_service:
+    build:
+      context: .
+      dockerfile: ./services/store_management/deployment/Dockerfile
+    ports:
       - 0.0.0.0:8040:8080
     environment:
       DB_HOST: postgres
@@ -41,21 +56,6 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 12345
       DB_NAME: store_db
-    volumes:
-      - ./:/app
-
-  # stock_service:
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/stock_management/deployment/Dockerfile
-  #   ports:
-  #     - 0.0.0.0:8050:8080
-  #   environment:
-  #     DB_HOST: postgres
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: 12345
-  #     DB_NAME: stock_db
 
   # order_service:
   #   build:
