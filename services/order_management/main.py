@@ -4,10 +4,6 @@ from fastapi import FastAPI
 from .di import init_di
 from .presentation.order import router as order_router
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
 app = FastAPI()
 
 

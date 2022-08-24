@@ -16,6 +16,24 @@ class UserPasswordLoginRequest(BaseModel):
             }
         }
 
+class UserPasswordRegisterRequest(BaseModel):
+    first_name: str
+    last_name: str
+    phone: str
+    email: str
+    password: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "first_name": "Hana",
+                "last_name": "Hana",
+                "phone": "0123456789",
+                "email": "abc@gmail.com",
+                "password": "123",
+            }
+        }
+
 
 class UserLoginResponse(BaseResponseSchema):
     data: UserInfoResponse
