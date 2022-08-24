@@ -1,6 +1,7 @@
 """
 Store Repository Interface
 """
+from abc import abstractmethod
 from typing import Tuple
 
 from core.types import Failure
@@ -11,8 +12,10 @@ class StoreRepository:
     async def init(self):
         pass
 
+    @abstractmethod
     async def get_store_by_id(self, id) -> Tuple[Store, Failure]:
         raise NotImplementedError()
 
-    async def receive_message_from_user(self, message) -> None:
+    @abstractmethod
+    async def get_list_store(self) -> list:
         raise NotImplementedError()

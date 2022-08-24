@@ -1,10 +1,19 @@
-from ..models import StoreDAO
+from typing import Tuple
+from core.types import Failure
+from ..dao import StoreDAO
 from ...domain.repository import StoreRepository
+from ...domain.entities.store import Store
+from ..orm import StoreORM
 
 
 class StoreRepositoryImpl(StoreRepository):
     def __init__(self) -> None:
         super().__init__()
+        self.store_dao = StoreDAO()
+
+    async def init(self):
+        from core.modules.sql_module import create_database_tables
+        await create_database_tables()
 
     async def get_store_by_id(self, id):
         # Access to db here
@@ -19,5 +28,8 @@ class StoreRepositoryImpl(StoreRepository):
         }
         return StoreDAO.from_json(json_data)
 
-    async def receive_message_from_user(self, message):
-        print(message)
+    async def get_list_store(self):
+        list_store = self.store_dao.all()
+        if list_store is not None:
+            return list_store, None
+        return []
