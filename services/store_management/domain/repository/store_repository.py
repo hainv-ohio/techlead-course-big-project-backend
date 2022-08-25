@@ -13,3 +13,6 @@ class StoreRepository:
 
     async def get_store_by_id(self, id) -> Tuple[Store, Failure]:
         raise NotImplementedError()
+
+    async def receive_message_from_user(self, message) -> None:
+        raise NotImplementedError()

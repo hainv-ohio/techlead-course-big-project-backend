@@ -1,45 +1,63 @@
-version: "3.3"
-
+version: '3.6'
 services:
-  user_app:
-    build:
-      dockerfile: services/user_management/deployment/Dockerfile
-      context: .
-    command: uvicorn services.user_management.main:app --reload
-    environment:
-      KAFKA_ENDPOINT: "broker:9092"
-    volumes:
-      - ./:/app
-
-  store_app:
-    build:
-      dockerfile: services/store_management/deployment/Dockerfile
-      context: .
-    command: uvicorn services.store_management.main:app --reload
-    environment:
-      KAFKA_ENDPOINT: "broker:9092"
-    volumes:
-      - ./:/app
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.1
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-
-  broker:
-    image: confluentinc/cp-kafka:7.0.1
-    container_name: broker
+  postgres:
+    image: postgres
+    restart: always
     ports:
-      - "9092:9092"
-    depends_on:
-      - zookeeper
+    - 0.0.0.0:5435:5432
+    volumes:
+    - ./db_data:/var/lib/postgresql/data
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+
+  user_service:
+    image: techlead-user-management:0.0.1  
+    ports:
+      - 0.0.0.0:8030:8080
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=12345
+      - DB_NAME=user_db
+
+  store_service:
+    build:
+      context: .
+      dockerfile: ./services/store_management/deployment/Dockerfile
+    ports:
+      - 0.0.0.0:8040:8080
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 12345
+      DB_NAME: store_db
+
+  # stock_service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./services/stock_management/deployment/Dockerfile
+  #   ports:
+  #     - 0.0.0.0:8050:8080
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: 12345
+  #     DB_NAME: stock_db
+
+  # order_service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./services/order_management/deployment/Dockerfile
+  #   ports:
+  #     - 0.0.0.0:8060:8080
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: 12345
+  #     DB_NAME: order_db
