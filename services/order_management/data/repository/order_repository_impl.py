@@ -1,6 +1,5 @@
 from typing import Tuple
 from core.types.failure import Failure
-from ..producer.order_producer import OrderProducer
 from ...domain.repository.order_repository import OrderRepository
 from ..models.order_dao import OrderDao
 from ...domain.entities.order import Order
@@ -8,7 +7,6 @@ from ...domain.entities.order import Order
 
 class OrderRepositoryImpl(OrderRepository):
     def __init__(self) -> None:
-        self.order_producer = OrderProducer()
         super().__init__()
             
     async def get_order_by_id(self, order_id: str) -> Tuple[Order, Failure]:
@@ -46,7 +44,8 @@ class OrderRepositoryImpl(OrderRepository):
         pass
 
     async def send_message_to_user(self, topic, order) -> Tuple[bool, Failure]:
-        self.order_producer.send_message_to_user(topic=topic, value=order)
+        # self.order_producer.send_message_to_user(topic=topic, value=order)
+        pass
 
     async def receive_message_from_user(self, order) -> Tuple[bool, Failure]:
         pass

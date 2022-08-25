@@ -12,29 +12,29 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
 
-  user_service:
-    image: techlead-user-management:0.0.1  
-    ports:
-      - 0.0.0.0:8030:8080
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=12345
-      - DB_NAME=user_db
+  # user_service:
+  #   image: techlead-user-management:0.0.1  
+  #   ports:
+  #     - 0.0.0.0:8030:8080
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=12345
+  #     - DB_NAME=user_db
 
-  store_service:
-    build:
-      context: .
-      dockerfile: ./services/store_management/deployment/Dockerfile
-    ports:
-      - 0.0.0.0:8040:8080
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: 12345
-      DB_NAME: store_db
+  # store_service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./services/store_management/deployment/Dockerfile
+  #   ports:
+  #     - 0.0.0.0:8040:8080
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: 12345
+  #     DB_NAME: store_db
 
   # stock_service:
   #   build:
@@ -49,15 +49,18 @@ services:
   #     DB_PASSWORD: 12345
   #     DB_NAME: stock_db
 
-  # order_service:
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/order_management/deployment/Dockerfile
-  #   ports:
-  #     - 0.0.0.0:8060:8080
-  #   environment:
-  #     DB_HOST: postgres
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: 12345
-  #     DB_NAME: order_db
+  order_service:
+    build:
+      context: .
+      dockerfile: ./services/order_management/deployment/Dockerfile
+    command: uvicorn services.order_management.main:app --reload --port=8080 --host=0.0.0.0
+    ports:
+      - 0.0.0.0:8080:8080
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 12345
+      DB_NAME: order_db
+    volumes:
+      - ./:/app
