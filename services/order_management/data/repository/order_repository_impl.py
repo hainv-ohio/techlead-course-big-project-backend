@@ -3,12 +3,17 @@ from core.types.failure import Failure
 from ...domain.repository.order_repository import OrderRepository
 from ..models.order_dao import OrderDao
 from ...domain.entities.order import Order
+from ..orm.order_orm import OrderORM
 
 
 class OrderRepositoryImpl(OrderRepository):
     def __init__(self) -> None:
         super().__init__()
-            
+
+    async def init(self):
+        from core.modules.sql_module import create_database_tables
+        await create_database_tables()
+
     async def get_order_by_id(self, order_id: str) -> Tuple[Order, Failure]:
         # Access db to get Order by order Id
         # Example data

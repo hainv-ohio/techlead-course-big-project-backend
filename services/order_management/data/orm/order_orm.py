@@ -12,7 +12,7 @@ class OrderORM(Order, BaseSqlOrm):
         Column("order_id", String(35), nullable=False),
         Column("user_id", String(35), nullable=False),
         Column("store_id", String(35), nullable=False),
-        Column("status", String(25), nullable=False),
+        Column("status", int, nullable=False),
         Column("created_at", TIMESTAMP(timezone=False), server_default=func.now()), 
         Column("updated_at", TIMESTAMP(timezone=False), onupdate=func.now()),
         Column("take_time_from", TIMESTAMP(timezone=True), nullable=True),
