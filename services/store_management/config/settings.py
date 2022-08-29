@@ -2,7 +2,7 @@ from core.config import CoreSettings, CommonApiSettings, SqlDatabaseSettings
 from kink import di
 
 """
-Settings for User Management Service
+Settings for Store Management Service
 """
 class Settings(CoreSettings, CommonApiSettings, SqlDatabaseSettings):
     USER_API_PREFIX: str = ''

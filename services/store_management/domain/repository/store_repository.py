@@ -17,5 +17,5 @@ class StoreRepository:
         raise NotImplementedError()
 
     @abstractmethod
-    async def get_list_store(self) -> list:
+    async def get_list_store(self) -> Tuple[list, None]:
         raise NotImplementedError()

@@ -1,9 +1,12 @@
+from re import A
 from typing import Tuple
 from core.types import Failure
 from ..dao import StoreDAO
 from ...domain.repository import StoreRepository
 from ...domain.entities.store import Store
 from ..orm import StoreORM
+from pprint import pprint
+import asyncio
 
 
 class StoreRepositoryImpl(StoreRepository):
@@ -26,10 +29,18 @@ class StoreRepositoryImpl(StoreRepository):
             'created_at': '21/06/2021',
             'updated_at': '22/06/2022'
         }
-        return StoreDAO.from_json(json_data)
+        return json_data
 
     async def get_list_store(self):
-        list_store = self.store_dao.all()
-        if list_store is not None:
-            return list_store, None
-        return []
+        list_store = await self.store_dao.all()
+        # pprint(list_store)
+        # if list_store is not None:
+        #     pprint(list_store)
+            # return list_store, None
+        return [
+                { "value": '1', "label": 'Store 1' },
+                { "value": '2', "label": 'Store 2' },
+                { "value": '3', "label": 'Store 3' },
+                { "value": '4', "label": 'Store 4' },
+                { "value": '5', "label": 'Store 5' },
+            ]

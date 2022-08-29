@@ -21,7 +21,6 @@ from kink import di, inject
 from core.modules.sql_module import get_async_session_builder # Make sure the di is there
 from loguru import logger
 M = TypeVar('M', bound=BaseSqlOrm)
-
 di['async_session_builder'] = lambda di: get_async_session_builder()
 
 class BaseDao:
@@ -67,7 +66,9 @@ class BaseDao:
         statement = sa.select(self.model).all().filter_by(**attrs)
         async with self.session_builder() as session:
             query_result = await session.execute(statement)
+            print("query" + query_result)
             return query_result.unique().scalars().all()
+        
     async def find(self, accept_languages=None, *where, **attrs) -> M:
         statement = sa.select(self.model).where(*where).filter_by(**attrs)
         if accept_languages is not None:

@@ -1,12 +1,14 @@
 from dotenv import load_dotenv
 
-load_dotenv('services/store_management/.env')
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .di import init_di
 from .presentation.apis.get_store import router as user_router
+from .config import cfg
 
-app = FastAPI()
+load_dotenv('services/store_management/.env')
+
+app = FastAPI(debug=True)
 origins = [
     '*'
 ]
