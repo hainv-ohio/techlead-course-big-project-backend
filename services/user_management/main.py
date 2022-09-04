@@ -4,6 +4,7 @@ load_dotenv('services/user_management/.env')
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import cfg
+import uvicorn
 
 from .di import init_di
 from .presentation.apis.user_auth import router as user_router
