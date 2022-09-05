@@ -1,30 +1,25 @@
 from typing import Tuple
 from core.types.failure import Failure
 from ...domain.repository.order_repository import OrderRepository
-from ..models.order_dao import OrderDao
+from ..dao.order_dao import OrderDao
 from ...domain.entities.order import Order
-from ..orm.order_orm import OrderORM
 
 
 class OrderRepositoryImpl(OrderRepository):
     def __init__(self) -> None:
         super().__init__()
+        self.order_dao = OrderDao()
 
     async def init(self):
         from core.modules.sql_module import create_database_tables
         await create_database_tables()
 
-    async def get_order_by_id(self, order_id: str) -> Tuple[Order, Failure]:
-        # Access db to get Order by order Id
-        # Example data
-        return OrderDao.from_json({
-            'order_id': '1',
-            'status': 1,
-            'customer_id': '1',
-            'shop_id': '1',
-            'take_time_start': '1',
-            'take_time_end': '1'
-        })
+    async def get_order_by_id(self, order_id) -> Tuple[Order, Failure]:
+        order = await self.order_dao.find_one_or_none(id = order_id)
+        print('order', order)
+        if order is not None:
+            return order, None
+        return None, Failure(401, "No order")
 
     async def save(self, order) -> Tuple[bool, Failure]:
         # Save Order to database if save bool return true else return false

@@ -11,6 +11,7 @@ class OrderORM(Order, BaseSqlOrm):
         BaseSqlOrm.metadata,
         get_common_id_column(),
         Column("store_id", String(35), nullable=False),
+        Column("customer_id", String(35), nullable=False),
         Column("status", Integer, nullable=False),
         Column("created_at", TIMESTAMP(timezone=False), server_default=func.now()), 
         Column("updated_at", TIMESTAMP(timezone=False), onupdate=func.now()),
