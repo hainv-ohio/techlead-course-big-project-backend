@@ -8,6 +8,7 @@ from loguru import logger
 
 @inject
 def connect_database(db_settings: SqlDatabaseSettings) -> None:
+
     logger.info(f'Connecting to SQL database at {db_settings.DATABASE_URI}')
     engine = create_async_engine(
         db_settings.DATABASE_URI, pool_pre_ping=True, future=True,
