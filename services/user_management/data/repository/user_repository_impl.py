@@ -3,6 +3,8 @@ from core.types import Failure
 from ..dao import UserDAO
 from ...domain.repository import UserRepository
 from ...domain.entities.user import User
+from ..orm import UserORM
+
 
 class UserRepositoryImpl(UserRepository):
     def __init__(self) -> None:
@@ -25,10 +27,10 @@ class UserRepositoryImpl(UserRepository):
             return user, None
         return None, Failure(401, "Incorrect username or password")
 
-
-    async def register_user(self, user: User, password: str) -> Tuple[User, str, Failure]:
-        user = self.user_dao.create({
-            **user.to_json(),
-            'password': password,
+    async def register_user(self, user: User, password: str) -> Tuple[User, Failure]:
+        user = UserORM(**{
+            **user.to_json(keys=['first_name', 'last_name', 'phone_number', 'email', 'is_verified', 'profile_image_url', 'status']),
         })
-
+        user.password = password
+        await self.user_dao.save(user)
+        return user, None
