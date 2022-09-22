@@ -2,7 +2,7 @@ from datetime import datetime
 from core.base import CommonEntity
 
 
-class Order:
+class Order(CommonEntity):
     id: str
     status: int
     customer_id: str

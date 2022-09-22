@@ -1,21 +1,19 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
+from ..schemas.base import BaseResponseSchema
 from core.types import failure
 
 from ...domain.usecases.get_order_usecase import GetOrderUsecase
+from ..schemas.order_action import OrderPickupTimeRequest
 
 router = APIRouter()
 
 
 @router.get('/{order_id}')
-
-async def get_order(order_id: str,
+async def order_action(order_id: str,
                 get_order_usecase: GetOrderUsecase = Depends(GetOrderUsecase)):
     order, failure = await get_order_usecase.execute(order_id)
-
-    print('api order', order)
-    print('api failure', failure)
 
     if failure is not None:
         return JSONResponse(
@@ -37,7 +35,12 @@ async def get_order(order_id: str,
         }
     }
 
-async def pickupDate(order_id, date_time_pickup):
-    
-    pass 
+@router.post('/pickup-time',
+            name='Pickup time',
+            description='Add/Update pickup time for order',
+            response_model=PickupTimeResponse,
+            responses={
+                 400: {"model": BaseResponseSchema},
+                 401: {"model": BaseResponseSchema}
+            })
 

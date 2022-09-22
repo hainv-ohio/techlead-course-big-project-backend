@@ -11,3 +11,4 @@ pytest-asyncio
 py-bcrypt
 sqlalchemy
 asyncpg
+python-dotenv
