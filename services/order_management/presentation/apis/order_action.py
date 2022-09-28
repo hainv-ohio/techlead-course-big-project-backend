@@ -5,6 +5,7 @@ from ..schemas.base import BaseResponseSchema
 from core.types import failure
 
 from ...domain.usecases.get_order_usecase import GetOrderUsecase
+from ...domain.usecases.update_time_pickup_usecase import UpdateTimePickupUsecase
 from ..schemas.order_action import OrderPickupTimeRequest
 
 router = APIRouter()
@@ -38,9 +39,23 @@ async def order_action(order_id: str,
 @router.post('/pickup-time',
             name='Pickup time',
             description='Add/Update pickup time for order',
-            response_model=PickupTimeResponse,
             responses={
                  400: {"model": BaseResponseSchema},
                  401: {"model": BaseResponseSchema}
             })
-
+async def pickup_time(data: OrderPickupTimeRequest,
+                        update_time_pickup_usecase: UpdateTimePickupUsecase = Depends(lambda: UpdateTimePickupUsecase())):
+    order, failure = await update_time_pickup_usecase.execute(order_id=data.order_id, take_time_from=data.take_time_from, take_time_to=data.take_time_to)
+    if failure is not None:
+        return JSONResponse(
+            status_code=failure.code,
+            content={'status': 'failure', 'message': "Can not choose take time!"}
+        )
+    return {
+        'status': 'success',
+        'message': '',
+        'data': {
+            'take_time_from': order.take_time_from,
+            'take_time_to': order.take_time_to
+        }
+    }

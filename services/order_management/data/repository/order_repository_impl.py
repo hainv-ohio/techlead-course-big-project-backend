@@ -3,6 +3,7 @@ from core.types.failure import Failure
 from ...domain.repository.order_repository import OrderRepository
 from ..dao.order_dao import OrderDao
 from ...domain.entities.order import Order
+from services.order_management.domain.entities import order
 
 
 class OrderRepositoryImpl(OrderRepository):
@@ -20,6 +21,16 @@ class OrderRepositoryImpl(OrderRepository):
         if order is not None:
             return order, None
         return None, Failure(401, "No order")
+
+    async def update_pickup_time(self, order_id, take_time_from, take_time_to) -> Tuple[Order, Failure]:
+        order = await self.order_dao.find_one(id=order_id)
+        print(order)
+        if order is not None:
+            order = self.order_dao.merge(order, take_time_from=take_time_from, take_time_to=take_time_to)
+            print(order.take_time_from)
+            await self.order_dao.save(order)
+            return order, None
+        return None, Failure(401, "Can not set pickup time.")
 
     async def save(self, order) -> Tuple[bool, Failure]:
         # Save Order to database if save bool return true else return false
