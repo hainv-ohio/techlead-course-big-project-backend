@@ -1,3 +1,4 @@
+from urllib import response
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
@@ -6,12 +7,19 @@ from core.types import failure
 
 from ...domain.usecases.get_order_usecase import GetOrderUsecase
 from ...domain.usecases.update_time_pickup_usecase import UpdateTimePickupUsecase
-from ..schemas.order_action import OrderPickupTimeRequest
+from ..schemas.order_action import OrderPickupTimeRequest, OrderRespone
 
 router = APIRouter()
 
 
-@router.get('/{order_id}')
+@router.get('/{order_id}',
+            name='Get order',
+            description='Get order by ID',
+            response_model=OrderRespone,
+            responses={
+                 400: {"model": BaseResponseSchema},
+                 401: {"model": BaseResponseSchema}
+            })
 async def order_action(order_id: str,
                 get_order_usecase: GetOrderUsecase = Depends(GetOrderUsecase)):
     order, failure = await get_order_usecase.execute(order_id)
@@ -25,7 +33,7 @@ async def order_action(order_id: str,
         'status': 'success',
         'message': '',
         'data': {
-            'order_id': order.id,
+            'id': order.id,
             'store_id': order.store_id,
             'customer_id': order.customer_id,
             'status': order.status,

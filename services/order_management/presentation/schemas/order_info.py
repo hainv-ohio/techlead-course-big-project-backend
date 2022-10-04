@@ -1,16 +1,18 @@
+from typing import Optional
+from uuid import UUID
 from pydantic import BaseModel
 from datetime import datetime
 
 
 class OrderInfoResponse(BaseModel):
-    id: str
+    id: UUID
     status: int
     customer_id: str
     store_id: str
-    take_time_from: datetime
-    take_time_to: datetime
-    created_at: datetime
-    updated_at: datetime
+    take_time_from: Optional[datetime]
+    take_time_to: Optional[datetime]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
 
     class Config:
         schema_extra = {
