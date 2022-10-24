@@ -1,4 +1,3 @@
-
 from heapq import merge
 import traceback
 
@@ -18,11 +17,12 @@ from sqlalchemy.exc import NoResultFound
 from .base_sql import BaseSqlOrm
 
 from kink import di, inject
-from core.modules.sql_module import get_async_session_builder # Make sure the di is there
+from core.modules.sql_module import get_async_session_builder  # Make sure the di is there
 from loguru import logger
-M = TypeVar('M', bound=BaseSqlOrm)
 
+M = TypeVar('M', bound=BaseSqlOrm)
 di['async_session_builder'] = lambda di: get_async_session_builder()
+
 
 class BaseDao:
     model: M
@@ -61,13 +61,13 @@ class BaseDao:
 
         return next(iter(primary_keys.values()))
 
-   
-        
     async def all(self, **attrs) -> List[M]:
         statement = sa.select(self.model).all().filter_by(**attrs)
         async with self.session_builder() as session:
             query_result = await session.execute(statement)
+            print("query" + query_result)
             return query_result.unique().scalars().all()
+
     async def find(self, accept_languages=None, *where, **attrs) -> M:
         statement = sa.select(self.model).where(*where).filter_by(**attrs)
         if accept_languages is not None:
@@ -78,13 +78,13 @@ class BaseDao:
                 for lan in accept_languages:
                     localized_statement = statement.filter(
                         sa.and_(
-                            self.model.language==lan, 
+                            self.model.language == lan,
                             sa.not_(
                                 self.model.id.in_([r.id for r in current_results])
                             )
                         )
                     )
-            
+
                     query_result = await session.execute(localized_statement)
                     results = query_result.unique().scalars().all()
                     current_results.extend(results)
@@ -94,7 +94,7 @@ class BaseDao:
             query_result = await session.execute(statement)
             results = query_result.unique().scalars().all()
         return results
-    
+
     async def find_one(self, *where, **attrs) -> M:
         statement = sa.select(self.model).where(*where).filter_by(**attrs)
         async with self.session_builder() as session:
@@ -129,13 +129,11 @@ class BaseDao:
             await session.commit()
             return True
 
-
     async def delete(self, instance: M) -> None:
         async with self.session_builder() as session:
             await session.delete(instance)
             await session.commit()
             return True
-
 
     # async def delete(self, instances: Sequence[M]) -> None:
     #     async with self.session_builder() as session:
@@ -143,8 +141,6 @@ class BaseDao:
     #             await session.delete(instance)
     #         await session.commit()
     #         return True
-
-
 
     async def pre_save(self, instance: M) -> M:
         async with self.session_builder() as session:
@@ -159,7 +155,6 @@ class BaseDao:
     #         session.add_all(instances)
     #         await session.flush()
     #     return instances
-
 
     async def save(self, instance: M) -> M:
         async with self.session_builder() as session:
