@@ -1,63 +1,32 @@
-version: '3.6'
+version: '3.1'
+
 services:
-  postgres:
+
+  db:
     image: postgres
     restart: always
-    ports:
-    - 0.0.0.0:5435:5432
-    volumes:
-    - ./db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: 12345
       POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: admin@123
+      PGDATA: /data/postgres
+
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
   user_service:
-    image: techlead-user-management:0.0.1  
-    ports:
-      - 0.0.0.0:8030:8080
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=12345
-      - DB_NAME=user_db
-
-  store_service:
+    container_name: user_service
     build:
       context: .
-      dockerfile: ./services/store_management/deployment/Dockerfile
+      dockerfile: ./services/user_management/Dockerfile
     ports:
-      - 0.0.0.0:8040:8080
+      - 0.0.0.0:8001:8080
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: postgres
-      DB_PASSWORD: 12345
-      DB_NAME: store_db
-
-  # stock_service:
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/stock_management/deployment/Dockerfile
-  #   ports:
-  #     - 0.0.0.0:8050:8080
-  #   environment:
-  #     DB_HOST: postgres
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: 12345
-  #     DB_NAME: stock_db
-
-  # order_service:
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/order_management/deployment/Dockerfile
-  #   ports:
-  #     - 0.0.0.0:8060:8080
-  #   environment:
-  #     DB_HOST: postgres
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: 12345
-  #     DB_NAME: order_db
+      DB_PASSWORD: admin@123
+      DB_NAME: user    
