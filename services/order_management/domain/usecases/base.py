@@ -1,16 +1,12 @@
-<<<<<<< HEAD
 from kink import di, inject
-
-=======
->>>>>>> a888b68e026857efbbacc1ef6a9a013ca4f55a22
-from services.order_management.domain.entities.order import Order
 from ..repository.order_repository import OrderRepository
+from ..repository.cart_repository import CartRepository
 
 
 @inject
-class BaseOrderUsecase:
+class BaseUsecase:
     def __init__(self,
                  repository: OrderRepository,
-                 order: Order) -> None:
+                 cart_repository: CartRepository) -> None:
         self.repository = repository
-        self.order = order
+        self.cart_repository = cart_repository

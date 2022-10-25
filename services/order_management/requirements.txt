@@ -1,0 +1,7 @@
+kink~=0.6.5
+loguru
+fastapi~=0.78.0
+uvicorn~=0.17.6
+pytz~=2022.1
+pydantic~=1.9.1
+confluent-kafka

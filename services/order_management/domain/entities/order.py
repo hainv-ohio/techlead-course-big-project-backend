@@ -1,11 +1,14 @@
 from dataclasses import dataclass
 from datetime import datetime
+from core.base import CommonEntity
 
 @dataclass
-class Order:
-    order_id: str
-    status: str
+class Order(CommonEntity):
+    id: str
+    status: int
     customer_id: str
-    shop_id: str
-    take_time_start: datetime
-    take_time_end: datetime
+    store_id: str
+    take_time_from: datetime
+    take_time_to: datetime
+    created_at: datetime
+    updated_at: datetime
