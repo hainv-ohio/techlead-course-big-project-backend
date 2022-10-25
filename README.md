@@ -1,13 +1,11 @@
 
+DATABASE
+    URL: IP:8080
+    USERNAME/EMAIL: admin@postgres.com
+    PASSWORD: admin
 
-## Init db
+USER SERVICE:
+    ENDPOINT: IP:8081/user
 
-<!-- Run SQL to create user and database for this service
-
-```bash
-psql postgres://postgres:changeme@localhost:5432/postgres << SQL
-CREATE DATABASE postgres;
-CREATE USER postgres WITH ENCRYPTED PASSWORD 'changeme';
-GRANT ALL PRIVILEGES ON DATABASE user TO postgres;
-SQL -->
-```
+STORE SERVICE:
+    ENDPOINT: IP:8082/user

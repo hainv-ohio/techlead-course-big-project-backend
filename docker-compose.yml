@@ -1,64 +1,90 @@
-version: '3.1'
+version: '3.6'
+networks:
+    postgres-service-net:
+      driver: bridge
+      attachable: true
 
 services:
-
-  postgres:
-    container_name: postgres_service
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin@123
-      PGDATA: /data/postgres
-    ports:
-      - 5432:5432
+  # Postgres Service
+  postgres-service:
+    container_name: service-postgres
+    image: postgres:14.4-alpine
+    ports: 
+      - 5440:5432
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - user-pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Admin2022
+      - POSTGRES_DB=pharmacy
     networks:
-      backend-app:
+      postgres-service-net:
         aliases:
-          - database-net
+          - postgres_database_net
 
-
-  adminer:
-    container_name: adminer_service
-    image: adminer
+  # DB management Service
+  pgadmin4:
+    container_name: pgadmin4-service
+    image: dpage/pgadmin4
     restart: always
     ports:
-      - 8080:8080
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@postgres.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    networks:
+      postgres-service-net:
+        aliases:
+          - pgadmin4-services-net
 
-  user_service:
-    container_name: user_service
-    build:
+  # User Service
+  user-services:
+    container_name: user-services
+    build: 
       context: .
       dockerfile: ./services/user_management/Dockerfile
+    restart: always
     ports:
-      - 0.0.0.0:8001:8080
+      - 8081:8081
+    depends_on:
+      - postgres-service
     environment:
-      DB_HOST: database-net
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: admin@123
-      DB_NAME: postgres
+      - DB_USER=admin
+      - DB_PASSWORD=Admin2022
+      - DB_NAME=pharmacy
+      - DB_HOST=postgres_database_net
+      - DB_PORT=5432
+    # volumes:
+    #   - ./services/user_management:/app/services/user_management
     networks:
-      - backend-app
-  
-  store_service:
-    container_name: store_service
-    build:
+      postgres-service-net:
+        aliases:
+          - user-services-net
+    # command: uvicorn services.user_management_service.main:app --reload --host "0.0.0.0" --port 8080
+
+  # Store Service
+  store-services:
+    container_name: store-services
+    build: 
       context: .
       dockerfile: ./services/store_management/Dockerfile
+    restart: always
     ports:
-      - 0.0.0.0:8002:8080
+      - 8082:8082
+    depends_on:
+      - postgres-service
     environment:
-      DB_HOST: database-net
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: admin@123
-      DB_NAME: postgres
+      - DB_USER=admin
+      - DB_PASSWORD=Admin2022
+      - DB_NAME=pharmacy
+      - DB_HOST=postgres_database_net
+      - DB_PORT=5432
+    # volumes:
+    #   - ./services/user_management:/app/services/user_management
     networks:
-      - backend-app
-    
-networks:
-  backend-app:
-    driver: bridge
+      postgres-service-net:
+        aliases:
+          - store-services-net
+
+volumes:
+  user-pgdata:
