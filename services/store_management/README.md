@@ -1,0 +1,1 @@
+uvicorn services.store_management.main:app --reload

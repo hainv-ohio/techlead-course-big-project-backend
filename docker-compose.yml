@@ -1,66 +1,90 @@
 version: '3.6'
+networks:
+    postgres-service-net:
+      driver: bridge
+      attachable: true
+
 services:
-  postgres:
-    image: postgres
+  # Postgres Service
+  postgres-service:
+    container_name: service-postgres
+    image: postgres:14.4-alpine
+    ports: 
+      - 5440:5432
+    volumes:
+      - user-pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Admin2022
+      - POSTGRES_DB=pharmacy
+    networks:
+      postgres-service-net:
+        aliases:
+          - postgres_database_net
+
+  # DB management Service
+  pgadmin4:
+    container_name: pgadmin4-service
+    image: dpage/pgadmin4
     restart: always
     ports:
-    - 0.0.0.0:5435:5432
-    volumes:
-    - ./db_data:/var/lib/postgresql/data
+      - 8080:80
     environment:
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      - PGADMIN_DEFAULT_EMAIL=admin@postgres.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    networks:
+      postgres-service-net:
+        aliases:
+          - pgadmin4-services-net
 
-  # user_service:
-  #   image: techlead-user-management:0.0.1  
-  #   ports:
-  #     - 0.0.0.0:8030:8080
-  #   environment:
-  #     - DB_HOST=postgres
-  #     - DB_PORT=5432
-  #     - DB_USER=postgres
-  #     - DB_PASSWORD=12345
-  #     - DB_NAME=user_db
-
-  # store_service:
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/store_management/deployment/Dockerfile
-  #   ports:
-  #     - 0.0.0.0:8040:8080
-  #   environment:
-  #     DB_HOST: postgres
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: 12345
-  #     DB_NAME: store_db
-
-  # stock_service:
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/stock_management/deployment/Dockerfile
-  #   ports:
-  #     - 0.0.0.0:8050:8080
-  #   environment:
-  #     DB_HOST: postgres
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: 12345
-  #     DB_NAME: stock_db
-
-  order_service:
-    build:
+  # User Service
+  user-services:
+    container_name: user-services
+    build: 
       context: .
-      dockerfile: ./services/order_management/deployment/Dockerfile
-    command: uvicorn services.order_management.main:app --reload --port=8080 --host=0.0.0.0
+      dockerfile: ./services/user_management/Dockerfile
+    restart: always
     ports:
-      - 0.0.0.0:8080:8080
+      - 8081:8081
+    depends_on:
+      - postgres-service
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: 12345
-      DB_NAME: order_db
-    volumes:
-      - ./:/app
+      - DB_USER=admin
+      - DB_PASSWORD=Admin2022
+      - DB_NAME=pharmacy
+      - DB_HOST=postgres_database_net
+      - DB_PORT=5432
+    # volumes:
+    #   - ./services/user_management:/app/services/user_management
+    networks:
+      postgres-service-net:
+        aliases:
+          - user-services-net
+    # command: uvicorn services.user_management_service.main:app --reload --host "0.0.0.0" --port 8080
+
+  # Store Service
+  store-services:
+    container_name: store-services
+    build: 
+      context: .
+      dockerfile: ./services/store_management/Dockerfile
+    restart: always
+    ports:
+      - 8082:8082
+    depends_on:
+      - postgres-service
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=Admin2022
+      - DB_NAME=pharmacy
+      - DB_HOST=postgres_database_net
+      - DB_PORT=5432
+    # volumes:
+    #   - ./services/user_management:/app/services/user_management
+    networks:
+      postgres-service-net:
+        aliases:
+          - store-services-net
+
+volumes:
+  user-pgdata:

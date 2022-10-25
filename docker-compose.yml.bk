@@ -1,0 +1,94 @@
+version: '3.6'
+services:
+  # postgres:
+  #   image: postgres
+  #   restart: always
+  #   ports:
+  #   - 0.0.0.0:5432:5432
+  #   volumes:
+  #   - ./db_data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_PASSWORD: 12345
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin@123
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin@123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  networks:
+    postgres:
+      driver: bridge
+  volumes:
+    postgres:
+    pgadmin:
+
+  user_service:
+    container_name: user_service
+    build:
+      context: .
+      dockerfile: ./services/user_management/Dockerfile
+    ports:
+      - 0.0.0.0:8001:8080
+   
+
+
+  # store_service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./services/store_management/Dockerfile
+  #   ports:
+  #     - 0.0.0.0:8002:8080
+  
+
+  # stock_service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./services/stock_management/deployment/Dockerfile
+  #   ports:
+  #     - 0.0.0.0:8050:8080
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: 12345
+  #     DB_NAME: stock_db
+
+  # order_service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./services/order_management/deployment/Dockerfile
+  #   ports:
+  #     - 0.0.0.0:8060:8080
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: 12345
+  #     DB_NAME: order_db
