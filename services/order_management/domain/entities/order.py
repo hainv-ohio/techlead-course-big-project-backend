@@ -1,7 +1,8 @@
+from dataclasses import dataclass
 from datetime import datetime
 from core.base import CommonEntity
 
-
+@dataclass
 class Order(CommonEntity):
     id: str
     status: int
