@@ -1,3 +1,9 @@
+SERVER
+    HOST: 172.104.180.73
+    USER: root
+    PASS: @ht~server!uytrk3689
+    SSH: ssh root@172.104.180.73
+
 
 DATABASE
     URL: IP:8080
