@@ -1,4 +1,7 @@
+import os
+
 from dotenv import load_dotenv
+
 load_dotenv('services/user_management/.env')
 
 from fastapi import FastAPI
@@ -9,7 +12,9 @@ import uvicorn
 from .di import init_di
 from .presentation.apis.user_auth import router as user_router
 
-app = FastAPI()
+api_root_path = os.getenv('API_ROOT_PATH', '')
+app = FastAPI(root_path=api_root_path)
+
 origins = [
     '*'
 ]
@@ -27,6 +32,6 @@ async def startup_event():
     await init_di()
 
 
-app.include_router(user_router, prefix='/user')
+app.include_router(user_router, prefix='')
 
 # uvicorn.run(app, host="0.0.0.0", port=6996)

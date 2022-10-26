@@ -1,65 +1,26 @@
 version: '3.6'
 networks:
-    postgres-service-net:
-      driver: bridge
-      attachable: true
+  default:
+    name: techlead-net
+    external: true
 
 services:
-  # Postgres Service
-  postgres-service:
-    container_name: service-postgres
-    image: postgres:14.4-alpine
-    ports: 
-      - 5440:5432
-    volumes:
-      - user-pgdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=Admin2022
-      - POSTGRES_DB=pharmacy
-    networks:
-      postgres-service-net:
-        aliases:
-          - postgres_database_net
-
-  # DB management Service
-  pgadmin4:
-    container_name: pgadmin4-service
-    image: dpage/pgadmin4
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@postgres.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
-    networks:
-      postgres-service-net:
-        aliases:
-          - pgadmin4-services-net
-
   # User Service
   user-services:
-    container_name: user-services
-    build: 
+    container_name: user-service
+    build:
       context: .
       dockerfile: ./services/user_management/Dockerfile
     restart: always
     ports:
-      - 8081:8081
-    depends_on:
-      - postgres-service
+      - 8181:8081
     environment:
       - DB_USER=admin
       - DB_PASSWORD=Admin2022
       - DB_NAME=pharmacy
-      - DB_HOST=postgres_database_net
+      - DB_HOST=postgres-service
       - DB_PORT=5432
-    # volumes:
-    #   - ./services/user_management:/app/services/user_management
-    networks:
-      postgres-service-net:
-        aliases:
-          - user-services-net
+      - API_ROOT_PATH=/api/v1/user
     # command: uvicorn services.user_management_service.main:app --reload --host "0.0.0.0" --port 8080
 
   # Store Service
@@ -70,21 +31,11 @@ services:
       dockerfile: ./services/store_management/Dockerfile
     restart: always
     ports:
-      - 8082:8082
-    depends_on:
-      - postgres-service
+      - 8182:8082
     environment:
       - DB_USER=admin
       - DB_PASSWORD=Admin2022
       - DB_NAME=pharmacy
-      - DB_HOST=postgres_database_net
+      - DB_HOST=postgres-service
       - DB_PORT=5432
-    # volumes:
-    #   - ./services/user_management:/app/services/user_management
-    networks:
-      postgres-service-net:
-        aliases:
-          - store-services-net
-
-volumes:
-  user-pgdata:
+      - API_ROOT_PATH=/api/v1/store

@@ -1,0 +1,71 @@
+version: '3.6'
+
+networks:
+  default:
+    name: techlead-net
+    driver: bridge
+    attachable: true
+
+services:
+  # Postgres Service
+  postgres-service:
+    container_name: service-postgres
+    image: postgres:14.4-alpine
+    ports: 
+      - 0.0.0.0:5440:5432
+    volumes:
+      - ./db_data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Admin2022
+      - POSTGRES_DB=pharmacy
+
+  # DB management Service
+  pgadmin4:
+    container_name: pgadmin4-service
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 9999:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@postgres.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - 0.0.0.0:80:8080
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./conf.d/:/etc/nginx/conf.d/
+      - ./log/:/var/log/nginx/
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:6.1.1
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 0.0.0.0:9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
