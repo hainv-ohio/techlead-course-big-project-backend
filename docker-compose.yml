@@ -66,3 +66,20 @@ services:
       - DB_HOST=postgres-service
       - DB_PORT=5432
       - API_ROOT_PATH=/api/v1/store
+
+  # Order Service
+  order-services:
+    container_name: order-services
+    build: 
+      context: .
+      dockerfile: ./services/order_management/Dockerfile
+    restart: always
+    ports:
+      - 8183:8083
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=Admin2022
+      - DB_NAME=pharmacy
+      - DB_HOST=postgres-service
+      - DB_PORT=5432
+      - API_ROOT_PATH=/api/v1/order
