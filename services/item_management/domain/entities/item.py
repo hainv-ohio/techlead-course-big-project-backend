@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from core.base import CommonEntity
-from .item import Item
 
 @dataclass
 class Item(CommonEntity):

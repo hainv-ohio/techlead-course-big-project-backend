@@ -16,7 +16,10 @@ class ItemRepositoryImpl(ItemRepository):
         
         self.item_dao = ItemDAO()
         # self.messaging_module = messaging_module
-
+    async def init(self):
+        from core.modules.sql_module import create_database_tables
+        await create_database_tables()
+        
     async def get_item_by_id(self, id):
         return self.item_dao.find_one(id=id)
 
