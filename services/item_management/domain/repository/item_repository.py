@@ -13,6 +13,9 @@ class ItemRepository:
     async def get_item_by_id(self, id) -> Tuple[Item, Failure]:
         raise NotImplementedError()
 
+    async def add_new_item(self, item: Item) -> Tuple[Item, Failure]:
+        raise NotImplementedError()
+
     async def update_item(self, itemUpdate: Item) -> Tuple[Item, Failure]:
         raise NotImplementedError()
 
