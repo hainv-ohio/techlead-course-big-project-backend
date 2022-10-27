@@ -2,15 +2,16 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+from os import getenv
 
 from alembic import context
+
+from dotenv import load_dotenv
+load_dotenv('services/item_management/.env')
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-from dotenv import load_dotenv
-load_dotenv('services/item_management/.env')
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -27,6 +28,7 @@ target_metadata = None
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+config.set_main_option('sqlalchemy.url', 'postgresql://'+getenv('DB_USER')+':'+getenv('DB_PASSWORD')+'@'+getenv('DB_HOST')+':'+getenv('DB_PORT')+'/'+getenv('DB_NAME'))
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.

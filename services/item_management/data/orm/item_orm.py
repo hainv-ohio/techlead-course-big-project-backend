@@ -19,6 +19,5 @@ class ItemORM(Item, BaseSqlOrm):
         Column("long_description", Text, nullable=True),
         Column("total_sale", Integer, default=0),
         Column("brand_id", String(50), nullable=True),
-        *get_common_columns(is_fk_user=False),
-        UniqueConstraint("sku")
+        UniqueConstraint("id")
     )
