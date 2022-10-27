@@ -1,13 +1,11 @@
-import os
-
 from dotenv import load_dotenv
-
-load_dotenv('services/item_management/.env')
-
+load_dotenv('services/user_management/.env')
+import uvicorn
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
+from .config import cfg
 from .di import init_di
 from .presentation.apis.item import getItemRouter as item_router
 
@@ -31,6 +29,6 @@ async def startup_event():
     await init_di()
 
 
-app.include_router(item_router, prefix='/item')
+app.include_router(item_router, prefix='')
 
 # uvicorn.run(app, host="0.0.0.0", port=6996)
