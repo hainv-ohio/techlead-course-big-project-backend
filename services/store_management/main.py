@@ -1,4 +1,7 @@
+import os
 from dotenv import load_dotenv
+
+load_dotenv('services/store_management/.env')
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,9 +9,9 @@ from .di import init_di
 from .presentation.apis.get_store import router as user_router
 from .config import cfg
 
-load_dotenv('services/store_management/.env')
+api_root_path = os.getenv('API_ROOT_PATH', '')
+app = FastAPI(root_path=api_root_path)
 
-app = FastAPI(debug=True)
 origins = [
     '*'
 ]
@@ -26,4 +29,4 @@ async def startup_event():
     await init_di()
 
 
-app.include_router(user_router, prefix='/store')
+app.include_router(user_router, prefix='')

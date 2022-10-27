@@ -1,18 +1,13 @@
-from re import A
-from typing import Tuple
-from core.types import Failure
 from ..dao import StoreDAO
 from ...domain.repository import StoreRepository
-from ...domain.entities.store import Store
-from ..orm import StoreORM
-from pprint import pprint
-import asyncio
+from .address_repository_impl import AddressRepositoryImpl
 
 
 class StoreRepositoryImpl(StoreRepository):
     def __init__(self) -> None:
         super().__init__()
         self.store_dao = StoreDAO()
+        self.address_repository_impl = AddressRepositoryImpl()
 
     async def init(self):
         from core.modules.sql_module import create_database_tables
@@ -32,15 +27,12 @@ class StoreRepositoryImpl(StoreRepository):
         return json_data
 
     async def get_list_store(self):
-        list_store = await self.store_dao.all()
-        # pprint(list_store)
-        # if list_store is not None:
-        #     pprint(list_store)
-            # return list_store, None
-        return [
-                { "value": '1', "label": 'Store 1' },
-                { "value": '2', "label": 'Store 2' },
-                { "value": '3', "label": 'Store 3' },
-                { "value": '4', "label": 'Store 4' },
-                { "value": '5', "label": 'Store 5' },
-            ]
+        list_store = await self.store_dao.find(None, status="ACTIVE")
+        for store in list_store:
+            store.id = str(store.id)
+            print(store.address_id)
+            store.address = await self.address_repository_impl.get_address_by_id(store.address_id)
+        return list_store
+
+    # async def get_address_by_id(self, get_store_by_id_usecase: GetAddressUseCase = Depends(GetAddressUseCase)):
+    #     pass

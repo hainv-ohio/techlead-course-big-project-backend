@@ -1,1 +1,2 @@
 from .store_repository_impl import StoreRepositoryImpl
+from .address_repository_impl import AddressRepositoryImpl

@@ -1,13 +1,17 @@
+SERVER
+    HOST: 172.104.180.73
+    USER: root
+    PASS: @ht~server!uytrk3689
+    SSH: ssh root@172.104.180.73
 
 
-## Init db
+DATABASE
+    URL: IP:8080
+    USERNAME/EMAIL: admin@postgres.com
+    PASSWORD: admin
 
-Run SQL to create user and database for this service
+USER SERVICE:
+    ENDPOINT: IP:8081/user
 
-```bash
-psql postgres://postgres:12345@localhost:5435/postgres << SQL
-CREATE DATABASE user_db;
-CREATE USER user_service WITH ENCRYPTED PASSWORD 'User12345';
-GRANT ALL PRIVILEGES ON DATABASE user_db TO user_service;
-SQL
-```
+STORE SERVICE:
+    ENDPOINT: IP:8082/user

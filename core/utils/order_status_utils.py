@@ -1,0 +1,6 @@
+CANCEL = '0'
+PENDING = '1'
+ORDERED = '2'
+APPROVE = '3'
+COMPLETED = '4'
+CLOSED = '5'

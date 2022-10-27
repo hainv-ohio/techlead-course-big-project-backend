@@ -1,11 +1,15 @@
 from kink import di
 
 from .data.repository.order_repository_impl import OrderRepositoryImpl
+from .data.repository.cart_repository_impl import CartRepositoryImpl
 from .domain.repository.order_repository import OrderRepository
-
+from .domain.repository.cart_repository import CartRepository
 
 async def init_di():
-    repository = OrderRepositoryImpl()
-    await repository.init()
+    order_repository = OrderRepositoryImpl()
+    cart_repository = CartRepositoryImpl()
+    await order_repository.init()
+    await cart_repository.init()
 
-    di[OrderRepository] = repository
+    di[OrderRepository] = order_repository
+    di[CartRepository] = cart_repository
