@@ -5,15 +5,37 @@ networks:
     external: true
 
 services:
-  # User Service
-  user-services:
-    container_name: user-service
+#   # User Service
+#   user-services:
+#     container_name: user-service
+#     build:
+#       context: .
+#       dockerfile: ./services/user_management/Dockerfile
+#     restart: always
+#     ports:
+#       - 8181:8081
+#     environment:
+#       - DB_USER=admin
+#       - DB_PASSWORD=Admin2022
+#       - DB_NAME=pharmacy
+#       - DB_HOST=postgres-service
+#       - DB_PORT=5432
+#       - DB_USER=postgres
+#       - DB_PASSWORD=12345
+#       - DB_NAME=user_db
+#       - API_ROOT_PATH=/api/v1/user
+#     volumes:
+#       - ./:/app
+
+  # Item Service
+  item_service:
+    container_name: item-services
     build:
       context: .
-      dockerfile: ./services/user_management/Dockerfile
+      dockerfile: ./services/item_management/Dockerfile
     restart: always
     ports:
-      - 8181:8081
+      - 0.0.0.0:8183:8083
     environment:
       - DB_USER=admin
       - DB_PASSWORD=Admin2022
@@ -23,22 +45,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=12345
       - DB_NAME=user_db
-      - API_ROOT_PATH=/api/v1/user
-    volumes:
-      - ./:/app
-
-  item_service:
-    build:
-      context: .
-      dockerfile: ./services/item_management/deployment/Dockerfile
-    ports:
-      - 0.0.0.0:8020:8080
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=12345
-      - DB_NAME=item_db
+      - API_ROOT_PATH=/api/v1/item
     volumes:
       - ./:/app
     # command: uvicorn services.user_management_service.main:app --reload --host "0.0.0.0" --port 8080

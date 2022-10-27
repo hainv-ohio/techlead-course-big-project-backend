@@ -18,5 +18,3 @@ async def startup_event():
 app.include_router(getItemRouter, prefix='/item')
 app.include_router(sendMessageRouter, prefix="/message")
 # app.include_router(router, prefix='')
-
-# uvicorn.run("services.item_management.main:app", host="0.0.0.0", port=6996, reload=True)
