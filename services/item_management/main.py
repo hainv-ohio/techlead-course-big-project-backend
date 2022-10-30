@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config import cfg
 from .di import init_di
 from .presentation.apis.item import getItemRouter as item_router
+from .presentation.apis.get_items_by_category_id import getItemsByCategoryRouter as items_by_category_router
 
 api_root_path = os.getenv('API_ROOT_PATH', '')
 app = FastAPI(root_path=api_root_path)
@@ -30,5 +31,6 @@ async def startup_event():
 
 
 app.include_router(item_router, prefix='')
+app.include_router(items_by_category_router, prefix='')
 
 # uvicorn.run(app, host="0.0.0.0", port=6996)

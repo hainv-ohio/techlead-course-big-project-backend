@@ -28,6 +28,9 @@ class ItemRepositoryImpl(ItemRepository):
             **item.to_json(keys=['name', 'sku', 'status', 'category_id', 'price', 'currency_code', 'sort_description', 'long_description', 'brand_id']),
         })
 
+    async def get_items_by_category_id(self, id):
+        return ItemDAO.find(None, status='1')
+
     async def update_item(self, itemUpdate: Item):
         pass
 
