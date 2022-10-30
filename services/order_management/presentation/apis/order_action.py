@@ -6,10 +6,12 @@ from fastapi.responses import JSONResponse
 
 from core.types import failure
 from services.order_management.domain.entities import cart_item
+from services.order_management.domain.usecases import get_all_cart_items
 from ..schemas.base import BaseResponseSchema
 from ...domain.usecases.get_order_usecase import GetOrderUsecase
 from ...domain.usecases.update_time_pickup_usecase import UpdateTimePickupUsecase
 from ...domain.usecases.add_item_to_cart_usecase import AddItemToCartUsecase
+from ...domain.usecases.get_all_cart_items import GetAllCartItems
 from ..schemas.order_action import OrderPickupTimeRequest, OrderRespone, OrderRequest, ItemRequest, CartItemRespone
 
 router = APIRouter()
@@ -101,3 +103,31 @@ async def add_item_to_cart(item_request: ItemRequest,
             "detail": cart_item.detail
         }
     }
+
+@router.get('/get-all-cart-items/{cart_id}',
+            name='Get cart items',
+            description='Get all cart items',
+            # response_model=CartItemRespone,
+            responses={
+                 400: {"model": BaseResponseSchema},
+                 401: {"model": BaseResponseSchema}
+            })
+async def get_all_cart_items(cart_id: str,
+                            get_all_cart_items: GetAllCartItems = Depends(lambda: GetAllCartItems())):
+    cart_items = await get_all_cart_items.execute(cart_id=cart_id)
+    result = []
+    if cart_items is not None:
+        for item in cart_items:
+            print('-----Item-----')
+            print(item)
+            data = {
+                "item_id": item.item_id,
+                "name": item.name,
+                "category_id": item.category_id,
+                "qty": item.qty,
+                "price": item.price,
+                "currency_code": item.currency_code,
+                "detail": item.detail
+            }
+            result.append(data)
+    return result
