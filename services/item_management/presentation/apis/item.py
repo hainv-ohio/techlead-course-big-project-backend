@@ -11,6 +11,8 @@ async def get_item_by_id(id: str,
     result = await get_item_by_id_usecase.execute(id)
 
     return {
+        'status': 'success',
+        'message': '',
         'data': {
             'id': result.id,
             'name': result.name,
