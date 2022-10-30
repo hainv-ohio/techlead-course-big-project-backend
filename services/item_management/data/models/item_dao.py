@@ -2,7 +2,7 @@ from ...domain.entities.item import Item
 
 
 class ItemDAO(Item):
-    def __init__(self, id: int, name: str, sku: str, status: int, category_id: int, price: float, currency_code: int,
+    def __init__(self, id: str, name: str, sku: str, status: int, category_id: int, price: float, currency_code: int,
         sort_description: str, long_description: str, total_sale: int, brand_id: int,
         *args,**kwargs) -> None:
         super().__init__(id, name, sku, status, category_id, price, currency_code, 

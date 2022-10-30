@@ -3,7 +3,7 @@ from core.base import CommonEntity
 
 @dataclass
 class Item(CommonEntity):
-    id: int
+    id: str
     name: str
     sku: str
     status: int
