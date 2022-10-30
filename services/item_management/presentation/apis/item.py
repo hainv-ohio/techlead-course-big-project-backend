@@ -8,5 +8,5 @@ getItemRouter = APIRouter()
 @getItemRouter.get('/{id}')
 async def get_item_by_id(id: int,
                          get_item_by_id_usecase: GetItemUseCase = Depends(GetItemUseCase)):
-    result = get_item_by_id_usecase.execute(id)
+    result = await get_item_by_id_usecase.execute(id)
     return result
