@@ -21,7 +21,7 @@ class ItemRepositoryImpl(ItemRepository):
         await create_database_tables()
         
     async def get_item_by_id(self, id):
-        return self.item_dao.find_one(id=id)
+        return await self.item_dao.find_one(id=id)
 
     async def add_new_item(self, item: Item):
         item = ItemORM(**{
@@ -29,7 +29,7 @@ class ItemRepositoryImpl(ItemRepository):
         })
 
     async def get_items_by_category_id(self, id):
-        return ItemDAO.find(None, status='1')
+        return await self.item_dao.find(None, status='1')
 
     async def update_item(self, itemUpdate: Item):
         pass
