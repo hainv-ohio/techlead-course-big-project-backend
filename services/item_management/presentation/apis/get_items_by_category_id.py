@@ -1,5 +1,6 @@
 from urllib import response
 from fastapi import APIRouter, Depends
+import json
 
 from ...domain.usecases import *
 
@@ -11,7 +12,9 @@ async def get_items_by_category_id(id: str,
                          get_items_by_category_id: GetItemsByCategory = Depends(GetItemsByCategory)):
     result = await get_items_by_category_id.execute(id)
     response = {
-        'data': {}
+        'status': 'success',
+        'message': '',
+        'data': []
     }
     for item in result:
         item_data = {
@@ -29,4 +32,4 @@ async def get_items_by_category_id(id: str,
         }
         response.data.append(item_data)
 
-    return response
+    return (response)
