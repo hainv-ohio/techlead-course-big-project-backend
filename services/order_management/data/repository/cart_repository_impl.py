@@ -1,6 +1,7 @@
 from typing import Tuple, List
 from abc import abstractmethod
 from unicodedata import name
+from core.types import failure
 from core.types.failure import Failure
 from ...domain.repository.cart_repository import CartRepository
 from ..dao.cart_dao import CartDao
@@ -56,6 +57,17 @@ class CartRepositoryImpl(CartRepository):
         # print('-----cart item -----')
         # print(cart_item)
         return cart_item, None
+
+    @abstractmethod
+    async def get_cart_by_customer_id(self, customer_id: str):
+        print('-----custom----')
+        print(customer_id)
+        cart = await self.cart_dao.find_one_or_none(customer_id=customer_id, status=1)
+        print('-----cart----')
+        print(cart)
+        if cart is not None:
+            return cart
+        return None
 
 
             

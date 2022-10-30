@@ -1,17 +1,19 @@
 from locale import currency
+from multiprocessing.connection import wait
 from unicodedata import name
 from urllib import response
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
 from core.types import failure
-from services.order_management.domain.entities import cart_item
+from services.order_management.domain.entities import cart, cart_item
 from services.order_management.domain.usecases import get_all_cart_items
 from ..schemas.base import BaseResponseSchema
 from ...domain.usecases.get_order_usecase import GetOrderUsecase
 from ...domain.usecases.update_time_pickup_usecase import UpdateTimePickupUsecase
 from ...domain.usecases.add_item_to_cart_usecase import AddItemToCartUsecase
 from ...domain.usecases.get_all_cart_items import GetAllCartItems
+from ...domain.usecases.get_cart_id_by_customer_id_usecase import GetCartIdByCustomerIdUsecase
 from ..schemas.order_action import OrderPickupTimeRequest, OrderRespone, OrderRequest, ItemRequest, CartItemRespone
 
 router = APIRouter()
@@ -131,3 +133,27 @@ async def get_all_cart_items(cart_id: str,
             }
             result.append(data)
     return result
+
+@router.get('/get-cart-id-by-customer-id/{customer_id}',
+            name='Get cart id by customer id',
+            description='Get cart id by customer id',
+            # response_model=CartItemRespone,
+            responses={
+                 400: {"model": BaseResponseSchema},
+                 401: {"model": BaseResponseSchema}
+            })
+async def get_all_cart_items(customer_id: str,
+                            get_cart_id_by_customer_id_usecase: GetCartIdByCustomerIdUsecase = Depends(lambda: GetCartIdByCustomerIdUsecase())):
+    cart = await get_cart_id_by_customer_id_usecase.execute(customer_id=customer_id)
+    if cart is None:
+        return JSONResponse(
+            status_code=401,
+            content={'status': 'failure', 'message': "Customer does not have cart."}
+        )
+    return {
+        'status': 'success',
+        'message': '',
+        'data': {
+            "id": cart.id
+        }
+    }
