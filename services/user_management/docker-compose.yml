@@ -1,0 +1,28 @@
+version: '3.6'
+services:
+  user_db_postgres:
+    image: postgres
+    restart: always
+    ports: 
+    - 0.0.0.0:5435:5432
+    volumes:
+    - ./user_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: user_db
+  
+  graphql-engine:
+    image: hasura/graphql-engine
+    ports:
+    - "0.0.0.0:8089:8080"
+    depends_on:
+    - "user_db"
+    restart: always
+    environment:
+      SECRET_KEY: "12345"
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:12345@user_db_postgres:5432/user_db
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLE_ALLOWLIST: "true"
+      HASURA_GRAPHQL_CORS_DOMAIN: "http://localhost:8080,http://localhost:9695,http://localhost:8081"

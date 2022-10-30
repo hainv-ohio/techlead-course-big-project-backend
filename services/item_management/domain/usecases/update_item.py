@@ -6,4 +6,4 @@ class UpdateItemUseCase(BaseItemUsecase):
         super().__init__()
 
     async def execute(self, Item):
-        pass
+        return await self.repository.update_item(Item)

@@ -20,7 +20,31 @@ services:
       - DB_NAME=pharmacy
       - DB_HOST=postgres-service
       - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=12345
+      - DB_NAME=user_db
       - API_ROOT_PATH=/api/v1/user
+    volumes:
+      - ./:/app
+
+  # Item Service
+  item_service:
+    container_name: item-services
+    build:
+      context: .
+      dockerfile: ./services/item_management/Dockerfile
+    restart: always
+    ports:
+      - 0.0.0.0:8184:8084
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=Admin2022
+      - DB_NAME=pharmacy
+      - DB_HOST=postgres-service
+      - DB_PORT=5432
+      - API_ROOT_PATH=/api/v1/item
+    volumes:
+      - ./:/app
     # command: uvicorn services.user_management_service.main:app --reload --host "0.0.0.0" --port 8080
 
   # Store Service
