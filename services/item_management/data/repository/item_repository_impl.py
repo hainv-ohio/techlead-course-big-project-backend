@@ -29,7 +29,7 @@ class ItemRepositoryImpl(ItemRepository):
         })
 
     async def get_items_by_category_id(self, id):
-        return await self.item_dao.find(None, status='1')
+        return await self.item_dao.find(None, status=1)
 
     async def update_item(self, itemUpdate: Item):
         pass
