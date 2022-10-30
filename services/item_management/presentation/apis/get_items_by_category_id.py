@@ -11,11 +11,7 @@ getItemsByCategoryRouter = APIRouter()
 async def get_items_by_category_id(id: str,
                          get_items_by_category_id: GetItemsByCategory = Depends(GetItemsByCategory)):
     result = await get_items_by_category_id.execute(id)
-    response = {
-        'status': 'success',
-        'message': '',
-        'data': []
-    }
+    data = []
     for item in result:
         item_data = {
             'id': item.id,
@@ -30,6 +26,10 @@ async def get_items_by_category_id(id: str,
             'total_sale': item.total_sale,
             'brand_id': item.brand_id,
         }
-        response.data.append(item_data)
+        data.append(item_data)
 
-    return (response)
+    return {
+        'status': 'success',
+        'message': '',
+        'data': data
+    }
