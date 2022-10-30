@@ -20,9 +20,6 @@ services:
       - DB_NAME=pharmacy
       - DB_HOST=postgres-service
       - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=12345
-      - DB_NAME=user_db
       - API_ROOT_PATH=/api/v1/user
     volumes:
       - ./:/app
