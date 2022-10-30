@@ -27,8 +27,9 @@ class CartRepositoryImpl(CartRepository):
         pass
 
     @abstractmethod
-    async def get_all_cart_item(self, cart_id: str) -> Tuple[List[CartItem], Failure]:
-        pass
+    async def get_all_cart_items(self, cart_id: str):
+        cart_items = await self.cart_item_dao.find(cart_id=cart_id)
+        return cart_items
 
     @abstractmethod
     async def add_item_to_cart(self, item_id, customer_id, qty) -> Tuple[CartItem, Failure]:

@@ -14,7 +14,7 @@ class CartRepository:
         raise NotImplementedError()
 
     @abstractmethod
-    async def get_all_cart_item(self, order_id: str) -> Tuple[List[CartItem], Failure]:
+    async def get_all_cart_items(self, order_id: str):
         raise NotImplementedError()
 
     @abstractmethod
