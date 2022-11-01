@@ -30,6 +30,9 @@ class ItemRepository:
 
     async def send_item_message(self, item)-> Tuple[Boolean, Failure]:
          raise NotImplementedError()
+        
+    async def get_items_by_ids(self, ids):
+        raise NotImplementedError()
 
     async def init(self):
         pass

@@ -12,7 +12,7 @@ class ItemORM(Item, BaseSqlOrm):
         Column("name", String(255), nullable=False),
         Column("sku", String(255), nullable=False),
         Column("status", Integer, nullable=False, default=1), 
-        Column("category_id", String(50), nullable=True),
+        Column("category_id", Integer, nullable=True),
         Column("price", DECIMAL, default=0),
         Column("currency_code", String(50), nullable=False, default="VND"),
         Column("sort_description", String(255), nullable=True),
