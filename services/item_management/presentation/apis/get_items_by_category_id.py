@@ -30,6 +30,7 @@ async def get_items_by_category_id(id: str,
 
     return {
         'status': 'success',
+        'code': 200,
         'message': '',
         'data': data
     }

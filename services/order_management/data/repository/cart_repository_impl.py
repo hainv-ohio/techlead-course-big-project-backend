@@ -10,6 +10,7 @@ from ...domain.entities.cart import Cart
 from ...domain.entities.cart_item import CartItem
 from ...data.orm.cart_item_orm import CartItemORM
 from ...data.orm.cart_orm import CartORM
+from ...data.dao.item_dao import ItemDAO
 
 
 
@@ -18,6 +19,7 @@ class CartRepositoryImpl(CartRepository):
         super().__init__()
         self.cart_dao = CartDao()
         self.cart_item_dao = CartItemDao()
+        self.item_dao = ItemDAO()
 
     async def init(self):
         from core.modules.sql_module import create_database_tables
@@ -34,25 +36,21 @@ class CartRepositoryImpl(CartRepository):
 
     @abstractmethod
     async def add_item_to_cart(self, item_id, customer_id, qty) -> Tuple[CartItem, Failure]:
-        item = {
-            "id": "123",
-            "name": "Test",
-            "category_id": 1,
-            "price": 10,
-            "currency_code": 1,
-            "detail": "Lorem sum"
-        }
+        item = await self.item_dao.find_one_or_none(id=item_id)
+        if item is None:
+            return None, Failure(401, "Item is not exist.")
+
         cart = await self.cart_dao.find_one_or_none(customer_id=customer_id, status=1)
         if cart is not None:
             cart_id = cart.id
-            cart_item = CartItemORM(**CartItem(cart_id=str(cart_id), item_id=item_id, qty=qty, name="Test", category_id=1, price=10, currency_code="dollar", detail="Lorem" ).to_json(keys=['cart_id', 'item_id', 'qty', 'name', 'category_id', 'price', 'currency_code', 'detail']))
+            cart_item = CartItemORM(**CartItem(cart_id=str(cart_id), item_id=str(item.id), qty=qty, name=item.name, category_id=int(item.category_id), price=item.price, currency_code=item.currency_code, detail=item.long_description).to_json(keys=['cart_id', 'item_id', 'qty', 'name', 'category_id', 'price', 'currency_code', 'detail']))
             await self.cart_item_dao.save(cart_item)
             return cart_item, None
         # cart = Cart(customer_id=customer_id, status=1)
         cart = CartORM(**Cart(customer_id=customer_id, status=1).to_json(keys=['customer_id', 'status']))
         await self.cart_dao.save(cart)
         cart_id = cart.id
-        cart_item = CartItemORM(** CartItem(item_id=item_id, qty=qty, name="Test", category_id=1, price=10, currency_code="dollar", detail="Lorem", cart_id=str(cart_id)).to_json(keys=['cart_id', 'item_id', 'qty', 'name', 'category_id', 'price', 'currency_code', 'detail']))
+        cart_item = CartItemORM(** CartItem(cart_id=str(cart_id), item_id=str(item.id), qty=qty, name=item.name, category_id=int(item.category_id), price=item.price, currency_code=item.currency_code, detail=item.long_description).to_json(keys=['cart_id', 'item_id', 'qty', 'name', 'category_id', 'price', 'currency_code', 'detail']))
         await self.cart_item_dao.save(cart_item)
         # print('-----cart item -----')
         # print(cart_item)

@@ -1,6 +1,6 @@
 from typing import Tuple
 from core.types import Failure
-from ..dao import ItemDAO
+from ..dao.item_dao import ItemDAO
 from ...domain.entities.item import Item
 from ...domain.repository.item_repository import ItemRepository
 from ..orm.item_orm import ItemORM
@@ -27,19 +27,6 @@ class ItemRepositoryImpl(ItemRepository):
         item = ItemORM(**{
             **item.to_json(keys=['name', 'sku', 'status', 'category_id', 'price', 'currency_code', 'sort_description', 'long_description', 'brand_id']),
         })
-
-    async def get_items_by_ids(self, ids):
-
-        print('-------------------------')
-        print(ids)
-
-        items = await self.item_dao.findByIds(ids)
-        if items is not None:
-            print('--- products ---')
-            print(items)
-            return items
-
-        return None
 
     async def get_items_by_category_id(self, id):
         return await self.item_dao.find(None, status=1)
