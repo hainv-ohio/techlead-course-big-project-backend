@@ -34,7 +34,7 @@ class OrderRequest(BaseModel):
         schema_extra = {
             "example": 
             {
-                'store_id': "914b1351-d474-4051-9e0a-4a67bdb56fe9                id=str(uuid.uuid4()),",
+                'store_id': "914b1351-d474-4051-9e0a-4a67bdb56fe9",
                 'customer_id': "3bb3c024-16f3-4077-b12b-f7ca4f0652cb",
                 'status': 1,
                 'take_time_from': '2022-09-22 16:41:48.890',
