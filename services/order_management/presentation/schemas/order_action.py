@@ -7,7 +7,6 @@ from .order_info import OrderInfoResponse, OrderPickupTimeResponse
 
 
 class OrderItemRequets(BaseModel):
-    order_id: str
     item_id: str
     qty: int
     price: float
