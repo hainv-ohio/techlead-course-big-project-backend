@@ -16,7 +16,6 @@ class OrderItemRequets(BaseModel):
         schema_extra = {
             "example": 
             {
-                "order_id": "3b365b32-d7bc-422f-b501-3205484d6213",
                 "item_id": "6fdc8d8b-4562-4d88-9347-be859e1f27b6",
                 "qty": 1,
                 "price": 299000
@@ -36,21 +35,19 @@ class OrderRequest(BaseModel):
         schema_extra = {
             "example": 
             {
-                'store_id': "3b365b32-d7bc-422f-b501-3205484d6213",
-                'customer_id': "3b365b32-d7bc-422f-b501-3205484d6213",
+                'store_id': "914b1351-d474-4051-9e0a-4a67bdb56fe9                id=str(uuid.uuid4()),",
+                'customer_id': "3bb3c024-16f3-4077-b12b-f7ca4f0652cb",
                 'status': 1,
                 'take_time_from': '2022-09-22 16:41:48.890',
                 'take_time_to': '2022-09-22 16:41:48.890',
                 "items": 
                 [
                     {
-                        "order_id": "3b365b32-d7bc-422f-b501-3205484d6213",
                         "item_id": "6fdc8d8b-4562-4d88-9347-be859e1f27b6",
                         "qty": 1,
                         "price": 299000
                     },
                     {
-                        "order_id": "3b365b32-d7bc-422f-b501-3205484d6213",
                         "item_id": "d3fb9c1a-740c-4404-9d6a-b642991a233a",
                         "qty": 1,
                         "price": 15000
