@@ -9,9 +9,9 @@ class OrderORM(Order, BaseSqlOrm):
     __table__ = Table(
         "order",
         BaseSqlOrm.metadata,
-        get_common_id_column(),
-        Column("store_id", String(35), nullable=False),
-        Column("customer_id", String(35), nullable=False),
+        Column("id", String(255), nullable=False, primary_key=True, index=True),
+        Column("store_id", String(255), nullable=False),
+        Column("customer_id", String(255), nullable=False),
         Column("status", Integer, nullable=False),
         Column("created_at", TIMESTAMP(timezone=False), server_default=func.now()), 
         Column("updated_at", TIMESTAMP(timezone=False), server_default=func.now()),

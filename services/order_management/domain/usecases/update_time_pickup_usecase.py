@@ -1,5 +1,4 @@
 from core.types import failure
-from services.order_management.domain.entities import order
 from .base import BaseUsecase
 
 

@@ -16,4 +16,4 @@ ADD ./services/item_management/ /app/services/item_management/
 ADD ./main.py /app/main.py
 
 # CMD [ "uvicorn services.item_management.main:app" ]
-ENTRYPOINT [ "uvicorn", "services.item_management.main:app" , "--host", "0.0.0.0", "--port", "8084" ]
+ENTRYPOINT [ "uvicorn", "services.item_management.main:app" , "--host", "0.0.0.0", "--port", "8084"]

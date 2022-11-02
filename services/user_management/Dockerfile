@@ -14,4 +14,4 @@ RUN python3 -m pip install -r requirements.txt
 ADD ./core /app/core
 ADD ./services/user_management /app/services/user_management
 
-ENTRYPOINT [ "uvicorn", "services.user_management.main:app" , "--host", "0.0.0.0", "--port", "8081" ]
+ENTRYPOINT [ "uvicorn", "services.user_management.main:app" , "--host", "0.0.0.0", "--port", "8081"]

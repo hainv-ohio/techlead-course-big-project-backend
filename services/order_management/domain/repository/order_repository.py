@@ -14,7 +14,7 @@ class OrderRepository:
         raise NotImplementedError()
 
     @abstractmethod
-    async def save(self, order) -> Tuple[bool, Failure]:
+    async def save(self, order):
         raise NotImplementedError()
 
     @abstractmethod
@@ -35,7 +35,7 @@ class OrderRepository:
 
     @abstractmethod
     async def init(self):
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     async def send_message_to_user(self, topic, value) -> Tuple[bool, Failure]:

@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 from datetime import datetime
 from .base import BaseResponseSchema
@@ -5,30 +6,56 @@ from .order_info import OrderInfoResponse, OrderPickupTimeResponse
 
 
 
-#
-# Request Model
-#
-class OrderRequest(BaseModel):
-    id: str
-    status: int
-    customer_id: str
-    store_id: str
-    take_time_from: datetime
-    take_time_to: datetime
-    created_at: datetime
-    updated_at: datetime
+class OrderItemRequets(BaseModel):
+    order_id: str
+    item_id: str
+    qty: int
+    price: float
 
     class Config:
         schema_extra = {
-            "example": {
-                'id': '31c4c1c6-f089-488b-a2c1-e5a9b1a59102',
-                'store_id': 1,
-                'customer_id': 1,
+            "example": 
+            {
+                "order_id": "3b365b32-d7bc-422f-b501-3205484d6213",
+                "item_id": "6fdc8d8b-4562-4d88-9347-be859e1f27b6",
+                "qty": 1,
+                "price": 299000
+            }
+        }
+
+
+
+class OrderRequest(BaseModel):
+    store_id: str
+    customer_id: str
+    status: int
+    take_time_from: datetime
+    take_time_to: datetime
+    items: List[OrderItemRequets]
+    class Config:
+        schema_extra = {
+            "example": 
+            {
+                'store_id': "3b365b32-d7bc-422f-b501-3205484d6213",
+                'customer_id': "3b365b32-d7bc-422f-b501-3205484d6213",
                 'status': 1,
-                'created_at': '2022-09-22 16:41:48.890',
-                'updated_at': '2022-09-22 16:41:48.890',
                 'take_time_from': '2022-09-22 16:41:48.890',
-                'take_time_to': '2022-09-22 16:41:48.890'
+                'take_time_to': '2022-09-22 16:41:48.890',
+                "items": 
+                [
+                    {
+                        "order_id": "3b365b32-d7bc-422f-b501-3205484d6213",
+                        "item_id": "6fdc8d8b-4562-4d88-9347-be859e1f27b6",
+                        "qty": 1,
+                        "price": 299000
+                    },
+                    {
+                        "order_id": "3b365b32-d7bc-422f-b501-3205484d6213",
+                        "item_id": "d3fb9c1a-740c-4404-9d6a-b642991a233a",
+                        "qty": 1,
+                        "price": 15000
+                    },
+                ]
             }
         }
 
