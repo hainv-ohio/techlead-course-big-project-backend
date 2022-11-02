@@ -11,5 +11,5 @@ class OrderItemRepository:
         raise NotImplementedError()
 
     @abstractmethod
-    async def save(self, order_item):
+    async def save(self, order_item: OrderItem):
         raise NotImplementedError()       

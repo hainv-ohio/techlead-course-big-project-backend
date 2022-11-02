@@ -18,7 +18,7 @@ class PlaceOrderUsecase(BaseUsecase):
         print('----- gererer -----')
         order = await self.repository.save(
             Order(
-                id=uuid.uuid4,
+                id=str(uuid.uuid4()),
                 store_id=store_id,
                 customer_id=customer_id,
                 take_time_from=take_time_from,
@@ -35,8 +35,9 @@ class PlaceOrderUsecase(BaseUsecase):
         items_order = []
         if order is not None:
             for item in items:
-                item_order = self.order_item_repository.save(
+                item_order = await self.order_item_repository.save(
                     OrderItem(
+                        id=str(uuid.uuid4()),
                         order_id=order.id,
                         item_id=item.item_id,
                         qty=item.qty,

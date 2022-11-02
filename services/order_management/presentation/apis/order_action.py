@@ -171,3 +171,9 @@ async def place_order(data: OrderRequest,
     print(data)
 
     data = await place_order_usecase.execute(store_id=data.store_id, customer_id=data.customer_id, take_time_from=data.take_time_from, take_time_to=data.take_time_to, items=data.items)
+    if data is not None:
+        return {
+            "code": 200,
+            "status": "success",
+            "message": "Order successful."
+        }

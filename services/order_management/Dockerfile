@@ -14,4 +14,4 @@ RUN python3 -m pip install -r requirements.txt
 ADD ./core /app/core
 ADD ./services/order_management /app/services/order_management
 
-ENTRYPOINT [ "uvicorn", "services.order_management.main:app" , "--host", "0.0.0.0", "--port", "8083" , "--reload"]
+ENTRYPOINT [ "uvicorn", "services.order_management.main:app" , "--host", "0.0.0.0", "--port", "8083"]
