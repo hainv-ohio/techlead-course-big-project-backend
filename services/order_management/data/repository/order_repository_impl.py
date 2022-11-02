@@ -2,14 +2,16 @@ from typing import Tuple
 from core.types.failure import Failure
 from ...domain.repository.order_repository import OrderRepository
 from ..dao.order_dao import OrderDao
+from ..dao.order_item_dao import OrderItemDAO
+from ..orm.order_orm import OrderORM
 from ...domain.entities.order import Order
-from services.order_management.domain.entities import order
 
 
 class OrderRepositoryImpl(OrderRepository):
     def __init__(self) -> None:
         super().__init__()
         self.order_dao = OrderDao()
+        self.order_item_dao = OrderItemDAO()
 
     async def init(self):
         from core.modules.sql_module import create_database_tables
@@ -32,9 +34,19 @@ class OrderRepositoryImpl(OrderRepository):
             return order, None
         return None, Failure(401, "Can not set pickup time.")
 
-    async def save(self, order) -> Tuple[bool, Failure]:
-        # Save Order to database if save bool return true else return false
-        return True
+    async def palce_order(self, order_data):
+        pass
+
+    async def save(self, order: Order):
+        order = OrderORM(**{
+            **order.to_json(keys=['id', 'status', 'customer_id', 'store_id', 'take_time_from', 'take_time_to', 'created_at', 'updated_at'])
+        })
+        await self.order_dao.save(order)
+
+        print('--- order save ---')
+        print(order)
+
+        return order
 
     async def delete(self, order: Order) -> bool:
         # Delete Order if delete successful return true else return false

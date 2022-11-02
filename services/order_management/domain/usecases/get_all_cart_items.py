@@ -2,9 +2,7 @@
 from typing import List, Tuple
 
 from core.types import Failure, failure
-from services.order_management.domain.entities import cart
 from .base import BaseUsecase
-from ..entities.cart_item import CartItem
 
 
 

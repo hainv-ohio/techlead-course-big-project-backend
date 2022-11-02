@@ -6,13 +6,14 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
 from core.types import failure
-from services.order_management.domain.entities import cart, cart_item
-from services.order_management.domain.usecases import get_all_cart_items
+from ...domain.entities import cart, cart_item
+from ...domain.usecases import get_all_cart_items
 from ..schemas.base import BaseResponseSchema
 from ...domain.usecases.get_order_usecase import GetOrderUsecase
 from ...domain.usecases.update_time_pickup_usecase import UpdateTimePickupUsecase
 from ...domain.usecases.add_item_to_cart_usecase import AddItemToCartUsecase
 from ...domain.usecases.get_all_cart_items import GetAllCartItems
+from ...domain.usecases.place_order_usecase import PlaceOrderUsecase
 from ...domain.usecases.get_cart_id_by_customer_id_usecase import GetCartIdByCustomerIdUsecase
 from ..schemas.order_action import OrderPickupTimeRequest, OrderRespone, OrderRequest, ItemRequest, CartItemRespone
 
@@ -157,3 +158,16 @@ async def get_all_cart_items(customer_id: str,
             "id": cart.id
         }
     }
+
+@router.post('/place-order',
+            name="Place Order",
+            responses={
+                 400: {"model": BaseResponseSchema},
+                 401: {"model": BaseResponseSchema}
+            })
+async def place_order(data: OrderRequest,
+                    place_order_usecase: PlaceOrderUsecase = Depends(lambda: PlaceOrderUsecase())):
+    print('--- first order data ---')
+    print(data)
+
+    data = await place_order_usecase.execute(store_id=data.store_id, customer_id=data.customer_id, take_time_from=data.take_time_from, take_time_to=data.take_time_to, items=data.items)

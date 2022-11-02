@@ -6,7 +6,7 @@ from core.base import CommonEntity
 class OrderItem(CommonEntity):
     id: str
     order_id: str
-    product_id: str
+    item_id: str
     qty: int
     price: float
     
