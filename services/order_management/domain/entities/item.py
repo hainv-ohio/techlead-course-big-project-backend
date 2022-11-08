@@ -14,3 +14,4 @@ class Item(CommonEntity):
     long_description: str
     total_sale: int
     brand_id: int
+    image: str

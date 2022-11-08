@@ -25,7 +25,7 @@ class ItemRepositoryImpl(ItemRepository):
 
     async def add_new_item(self, item: Item):
         item = ItemORM(**{
-            **item.to_json(keys=['name', 'sku', 'status', 'category_id', 'price', 'currency_code', 'sort_description', 'long_description', 'brand_id']),
+            **item.to_json(keys=['name', 'sku', 'status', 'category_id', 'price', 'currency_code', 'sort_description', 'long_description', 'brand_id', 'image']),
         })
 
     async def get_items_by_ids(self, ids):

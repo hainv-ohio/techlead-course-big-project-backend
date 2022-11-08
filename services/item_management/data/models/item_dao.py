@@ -3,10 +3,10 @@ from ...domain.entities.item import Item
 
 class ItemDAO(Item):
     def __init__(self, id: str, name: str, sku: str, status: int, category_id: int, price: float, currency_code: int,
-        sort_description: str, long_description: str, total_sale: int, brand_id: int,
+        sort_description: str, long_description: str, total_sale: int, brand_id: int, image: str,
         *args,**kwargs) -> None:
         super().__init__(id, name, sku, status, category_id, price, currency_code, 
-        sort_description, long_description, total_sale, brand_id, *args, **kwargs)
+        sort_description, long_description, total_sale, brand_id, image, *args, **kwargs)
 
     @staticmethod
     def from_json(json_data) -> Item:
@@ -21,5 +21,6 @@ class ItemDAO(Item):
             json_data['sort_description'],
             json_data['long_description'],
             json_data['total_sale'],
-            json_data['brand_id']
+            json_data['brand_id'],
+            json_data['image']
         )

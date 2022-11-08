@@ -33,6 +33,7 @@ async def get_item_by_id(id: str,
             'long_description': result.long_description,
             'total_sale': result.total_sale,
             'brand_id': result.brand_id,
+            'image': result.image
         }
     }
 
@@ -68,7 +69,8 @@ async def get_item_by_id(ids: str,
             "sort_description": item.sort_description,
             "long_description": item.long_description,
             "total_sale": item.total_sale,
-            "brand_id": item.brand_id
+            "brand_id": item.brand_id,
+            "image": item.image
         }
         data.append(data_item)
     

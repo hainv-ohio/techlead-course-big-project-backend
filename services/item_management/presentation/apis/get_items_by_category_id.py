@@ -25,6 +25,7 @@ async def get_items_by_category_id(id: str,
             'long_description': item.long_description,
             'total_sale': item.total_sale,
             'brand_id': item.brand_id,
+            'image': item.image
         }
         data.append(item_data)
 

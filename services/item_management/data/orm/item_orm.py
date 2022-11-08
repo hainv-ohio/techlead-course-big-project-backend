@@ -19,5 +19,6 @@ class ItemORM(Item, BaseSqlOrm):
         Column("long_description", Text, nullable=True),
         Column("total_sale", Integer, default=0),
         Column("brand_id", String(50), nullable=True),
+        Column("image", String(50), nullable=True),
         UniqueConstraint("id")
     )
