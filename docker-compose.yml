@@ -1,0 +1,50 @@
+version: '2.0'
+
+networks:
+  aht-hrm:
+    driver: bridge
+
+services:
+  authentication-service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: authentication-service
+    restart: "always"
+    ports:
+      - 9000:9000
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
+      - DB_NAME=hrm_authen
+      - DB_HOST=postgres-service
+      - DB_PORT=5432
+      - API_ROOT_PATH=/api/v1/user
+    volumes:
+      - ./:/app
+    networks:
+      - aht-hrm
+
+  postgres-service:
+    container_name: service-postgres
+    image: postgres:14.4-alpine
+    ports: 
+      - 0.0.0.0:5432:5432
+    volumes:
+      - ./db_data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=hrm_authen
+
+  # DB management Service
+  pgadmin4:
+    container_name: pgadmin4-service
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 9999:8082
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@postgres.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+
