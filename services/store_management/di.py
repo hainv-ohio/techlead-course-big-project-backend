@@ -13,6 +13,5 @@ async def init_di():
     address_repository = AddressRepositoryImpl()
     await store_repository.init()
     await address_repository.init()
-    print("adsdsdsds")
     di[StoreRepository] = store_repository
     di[AddressRepository] = address_repository
